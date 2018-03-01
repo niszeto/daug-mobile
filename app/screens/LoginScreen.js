@@ -1,20 +1,23 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput , Button, Alert } from 'react-native';
-
+import { StyleSheet, View, Alert } from 'react-native';
 import { LinearGradient } from 'expo';
+import { Button, Input } from 'react-native-elements';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default class App extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
       email: '',
       password: '',
-    } 
+    }
   }
 
-  buttonPressed(email,password) {
+  buttonPressed = () => {
+    const { email, password } = this.state;
+
     Alert.alert(
       'Success',
       `Email: ${email} Password: ${password}`,
@@ -25,54 +28,82 @@ export default class App extends React.Component {
     )
   }
 
-  isCredentialsEmpty(){
-    const { email , password } = this.state;
+  isCredentialsEmpty() {
+    const { email, password } = this.state;
 
     return email.length > 0 && password.length > 0;
   }
 
 
   render() {
+    const { email, password } = this.state;
+
     return (
 
-        <LinearGradient
-          colors={['#2F80ED', '#56CCF2']}
-          style={styles.mainContainer}
-        >
+      <LinearGradient
+        colors={['#2F80ED', '#56CCF2']}
+        style={styles.mainContainer}
+      >
 
-          <View style={styles.textInputContainer}>
+        <View style={styles.textInputContainer}>
 
-            <TextInput 
-              style={styles.textInput}
-              placeholderTextColor={'black'}
-              placeholder={'Email'}
-              value={this.state.email}
-              onChangeText={(email) => this.setState({email})}
-            />
+          <Input
+            leftIcon={
+              <MaterialCommunityIcons
+                name='email-outline'
+                color='white'
+                size={25}
+              />
+            }
+            value={email}
+            onChangeText={email => this.setState({ email })}
+            placeholder="Enter your email here."
+            placeholderTextColor="white"
+            autoCapitalize="none"
+            keyboardType="email-address"
+            returnKeyType="next"
+            displayError={false}
+            errorMessage="Please enter a valid email address"
+            errorStyle={{ color: 'white' }}
+            containerStyle={styles.textInput}
+            inputStyle={{ color: 'white' }}
+          />
 
-            <TextInput 
-              style={styles.textInput}
-              placeholderTextColor={'black'}
-              placeholder={'Password'}
-              value={this.state.password}
-              onChangeText={(password) => this.setState({password})}
-              secureTextEntry={true}
+          <Input
+            leftIcon={
+              <MaterialCommunityIcons
+                name='lock-outline'
+                color='white'
+                size={25}
+              />
+            }
+            value={password}
+            onChangeText={password => this.setState({ password })}
+            placeholder="Enter your password here."
+            secureTextEntry={true}
+            placeholderTextColor="white"
+            autoCapitalize="none"
+            keyboardType="email-address"
+            returnKeyType="go"
+            displayError={false}
+            errorMessage="Please enter a valid password"
+            errorStyle={{ color: 'white' }}
+            containerStyle={styles.textInput}
+            inputStyle={{ color: 'white' }}
+          />
 
-            />
-            
-          </View>
+        </View>
 
-          <View style={[styles.buttonContainer, !this.isCredentialsEmpty() && {backgroundColor: 'grey'}] }>
-            <Button 
-              style={styles.button}
-              disabled={!this.isCredentialsEmpty()}
-              title='Login'
-              color='white'
-              onPress={() => this.buttonPressed(this.state.email, this.state.password)}
-            />
-          </View>
+        <Button
+          style={styles.buttonContainer}
+          text='Login'
+          buttonStyle={[styles.buttonStyle, !this.isCredentialsEmpty() && { backgroundColor: 'grey' }]}
+          disabled={!this.isCredentialsEmpty()}
+          onPress={this.buttonPressed}
+          textStyle={styles.buttonTextStyle}
+        />
 
-        </LinearGradient>      
+      </LinearGradient>
     );
   }
 }
@@ -90,27 +121,19 @@ const styles = StyleSheet.create({
 
   textInput: {
     justifyContent: 'center',
-    borderColor: 'white',
-    borderWidth: 1,
-    borderRadius: 30,
     marginBottom: 10,
-    marginLeft: 50,
-    marginRight: 50,
     height: 50,
     width: 300,
   },
 
   buttonContainer: {
-    backgroundColor: 'blue',
+    marginTop: 50,
     height: 50,
     width: 300,
   },
 
-  button: {
-    justifyContent: 'center',
-    textAlign: 'center',
-    height: 50,
-    width: 300,
+  buttonTextStyle: {
+    fontSize: 25,
   }
 
 });
