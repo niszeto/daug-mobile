@@ -13,7 +13,6 @@ export default class App extends React.Component {
         <Image
           style={styles.avatarContainer}
           source={require('../../assets/corgiLogo.png')}
-          // source={require('../../assets/Corgi.png')}
           resizeMode='contain'
         />
 
