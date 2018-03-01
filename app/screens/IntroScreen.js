@@ -6,6 +6,7 @@ import { LinearGradient } from 'expo';
 import LoginScreen from './LoginScreen'
 import SignupScreen from './SignupScreen'
 import IntroSlider from '../components/IntroSlider'
+import SocialFeedScreen from './SocialFeedScreen'
 
 export default class App extends React.Component {
 
@@ -13,7 +14,7 @@ export default class App extends React.Component {
     super(props);
 
     this.state = {
-      screen: 'login'
+      screen: 'socialfeed'
 
     }
 
@@ -32,7 +33,9 @@ export default class App extends React.Component {
       return <LoginScreen />
     } else if (screen === 'signup') {
       return <SignupScreen />
-    } else {
+    } else if(screen === 'socialfeed'){
+      return <SocialFeedScreen/>
+    }else {
       return (
 
         <View style={styles.mainContainer}>

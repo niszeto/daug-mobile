@@ -17,7 +17,7 @@ export default class App extends React.Component {
   buttonPressed(email,password) {
     Alert.alert(
       'Success',
-      `Email: ${email} & Password: ${password}`,
+      `Email: ${email} Password: ${password}`,
       [
         { text: 'OK', onPress: () => console.log('OK pressed') }
       ],
@@ -56,6 +56,8 @@ export default class App extends React.Component {
               placeholder={'Password'}
               value={this.state.password}
               onChangeText={(password) => this.setState({password})}
+              secureTextEntry={true}
+
             />
             
           </View>
