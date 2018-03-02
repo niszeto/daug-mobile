@@ -120,7 +120,7 @@ export default class App extends React.Component {
         <Button
           style={styles.buttonContainer}
           text='Sign Up'
-          buttonStyle={[styles.buttonStyle, !this.isCredentialsEmpty() && { backgroundColor: 'grey' }]}
+          buttonStyle={[styles.buttonStyle, !this.isCredentialsEmpty() && { backgroundColor: 'grey' }]} //look at this later
           disabled={!this.isCredentialsEmpty()}
           onPress={this.buttonPressed}
           textStyle={styles.buttonTextStyle}
