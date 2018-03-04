@@ -15,10 +15,10 @@ export default class App extends React.Component {
     super(props);
 
     this.state = {
-      // screen: 'login'
+      screen: 'login'
       // screen: 'signup'
       // screen: 'socialfeed'
-      screen: 'profile'
+      // screen: 'profile'
 
     }
 
