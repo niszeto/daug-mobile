@@ -25,8 +25,8 @@ export default class App extends React.Component {
 
     const { screen } = this.state;
 
-    if(screen === 'homescreen'){
-      return <IntroScreen/>
+    if (screen === 'homescreen') {
+      return <IntroScreen />
     }
 
     return (
@@ -34,7 +34,7 @@ export default class App extends React.Component {
 
         <Image
           style={styles.headerImage}
-          source={{ url: 'https://static.pexels.com/photos/265393/pexels-photo-265393.jpeg' }}
+          source={{ uri: 'https://static.pexels.com/photos/265393/pexels-photo-265393.jpeg' }}
           resizeMode='cover'
         />
 
@@ -45,7 +45,8 @@ export default class App extends React.Component {
             <View style={styles.profileDetailsSubContainer}>
               <Image
                 style={styles.avatarContainer}
-                source={{ url: 'https://static.pexels.com/photos/458825/pexels-photo-458825.jpeg' }}
+                source={{ uri: 'https://static.pexels.com/photos/458825/pexels-photo-458825.jpeg' }}
+                resizeMode='cover'
               />
 
               <View style={styles.textAndButtonContainer}>
