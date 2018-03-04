@@ -4,7 +4,21 @@ import { SOCIAL_FEED_MOCK_DATA } from '../constants';
 
 import { Ionicons } from '@expo/vector-icons';
 
+import ProfileScreen from './ProfileScreen';
+
 export default class App extends React.Component {
+
+  constructor(props){
+    super(props);
+
+    this.state = {
+      screen: null
+    };
+  }
+
+  goToProfile = () => {
+    this.setState({screen: 'profile'})
+  }
 
   //render one post
   renderItem = ({ item }) => {
@@ -13,6 +27,7 @@ export default class App extends React.Component {
 
         <TouchableOpacity
         // onPress={({ item }) => this.renderProfile({ item })}
+        onPress={this.goToProfile}
         >
           <View style={styles.headerContainer}>
             <Image
@@ -79,6 +94,13 @@ export default class App extends React.Component {
   }
 
   render() {
+
+    const{screen} = this.state;
+
+    if(screen === 'profile'){
+      return <ProfileScreen/>
+    }
+    
     return (
       <ScrollView style={styles.mainContainer}>
 

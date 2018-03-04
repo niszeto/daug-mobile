@@ -2,40 +2,51 @@ import React from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { Button } from 'react-native-elements';
 
+import IntroScreen from './IntroScreen';
+
 export default class App extends React.Component {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      screen: null
+    };
+
+  }
+
+  buttonPressed = () => {
+    this.setState({ screen: 'homescreen' });
   }
 
 
   render() {
-    const { profile } = this.props;
+    // const { profile } = this.props;
+
+    const { screen } = this.state;
+
+    if(screen === 'homescreen'){
+      return <IntroScreen/>
+    }
 
     return (
       <View style={styles.mainContainer}>
-
-        {/* <View style={styles.headerContainer}> */}
 
         <Image
           style={styles.headerImage}
           source={{ url: 'https://static.pexels.com/photos/265393/pexels-photo-265393.jpeg' }}
           resizeMode='cover'
         />
-        {/* </View> */}
-
 
         <View style={styles.contentContainer}>
 
           <View style={styles.profileDetailsMainContainer}>
 
             <View style={styles.profileDetailsSubContainer}>
-              {/* <View style={styles.avatarContainer}> */}
               <Image
                 style={styles.avatarContainer}
                 source={{ url: 'https://static.pexels.com/photos/458825/pexels-photo-458825.jpeg' }}
               />
-              {/* </View> */}
 
               <View style={styles.textAndButtonContainer}>
 

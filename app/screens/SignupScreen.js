@@ -4,6 +4,8 @@ import { LinearGradient } from 'expo';
 import { Button, Input } from 'react-native-elements';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+import IntroScreen from './IntroScreen';
+
 export default class App extends React.Component {
 
   constructor(props) {
@@ -13,6 +15,7 @@ export default class App extends React.Component {
       name: '',
       email: '',
       password: '',
+      screen: null
     }
   }
 
@@ -27,6 +30,8 @@ export default class App extends React.Component {
       ],
       { cancelable: false }
     )
+
+    this.setState({screen: 'homescreen'});
   }
 
   isCredentialsEmpty() {
@@ -37,7 +42,11 @@ export default class App extends React.Component {
 
 
   render() {
-    const { name, email, password } = this.state;
+    const { name, email, password, screen } = this.state;
+
+    if(screen === 'homescreen'){
+      return <IntroScreen/>
+    }
 
     return (
 

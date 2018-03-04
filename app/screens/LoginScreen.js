@@ -4,6 +4,11 @@ import { LinearGradient } from 'expo';
 import { Button, Input } from 'react-native-elements';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+import SocialFeedScreen from './SocialFeedScreen';
+
+const EMAIL = 'clucky@gmail.com';
+const PASSWORD = 'ilikeclucking';
+
 export default class App extends React.Component {
 
   constructor(props) {
@@ -12,10 +17,22 @@ export default class App extends React.Component {
     this.state = {
       email: '',
       password: '',
+      screen: null
     }
   }
 
   buttonPressed = () => {
+    const { email, password } = this.state;
+
+    if(email === EMAIL && password === PASSWORD){
+      this.setState({screen: 'socialfeed'});
+      this.correctAlert();
+    }else{
+      this.incorrectAlert();
+    }
+  }
+
+  correctAlert = () => {
     const { email, password } = this.state;
 
     Alert.alert(
@@ -23,6 +40,17 @@ export default class App extends React.Component {
       `Email: ${email} Password: ${password}`,
       [
         { text: 'OK', onPress: () => console.log('OK pressed') }
+      ],
+      { cancelable: false }
+    )
+  }
+
+  incorrectAlert = () => {
+    Alert.alert(
+      'Incorrect',
+      `The email is: ${EMAIL} and the password is: ${PASSWORD}`,
+      [
+        { text: 'Try again', onPress: () => console.log('Try again pressed') }
       ],
       { cancelable: false }
     )
@@ -36,7 +64,11 @@ export default class App extends React.Component {
 
 
   render() {
-    const { email, password } = this.state;
+    const { email, password, screen } = this.state;
+
+    if(screen === 'socialfeed'){
+      return <SocialFeedScreen/>
+    }
 
     return (
 
