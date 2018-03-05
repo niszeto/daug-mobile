@@ -6,28 +6,32 @@ import IntroScreen from './IntroScreen';
 
 export default class App extends React.Component {
 
+  static navigationOptions = {
+    header: null
+  };
+
   constructor(props) {
     super(props);
 
-    this.state = {
-      screen: null
-    };
+    // this.state = {
+    //   screen: null
+    // };
 
   }
 
   buttonPressed = () => {
-    this.setState({ screen: 'homescreen' });
+    this.props.navigation.navigate('Intro');
   }
 
 
   render() {
     // const { profile } = this.props;
 
-    const { screen } = this.state;
+    // const { screen } = this.state;
 
-    if (screen === 'homescreen') {
-      return <IntroScreen />
-    }
+    // if (screen === 'homescreen') {
+    //   return <IntroScreen />
+    // }
 
     return (
       <View style={styles.mainContainer}>
@@ -94,7 +98,7 @@ export default class App extends React.Component {
           <Button
             style={styles.logoutButtonContainer}
             text='Logout'
-            onPress={this.buttonPressed}
+            onPress={() => this.props.navigation.navigate('Intro')}
             textStyle={styles.buttonTextStyle}
           />
         </View>

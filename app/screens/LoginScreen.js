@@ -6,10 +6,17 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import SocialFeedScreen from './SocialFeedScreen';
 
-const EMAIL = 'clucky@gmail.com';
-const PASSWORD = 'ilikeclucking';
+const EMAIL = 'clucky';
+const PASSWORD = 'rn';
 
 export default class App extends React.Component {
+
+  static navigationOptions = {
+    title: 'Login',
+    headerStyle: { backgroundColor: '#2F80ED', borderBottomWidth: 0, },
+    headerTintColor: 'white',
+    headerTitleStyle: { color: 'white', fontSize: 20 }
+  };
 
   constructor(props) {
     super(props);
@@ -25,7 +32,6 @@ export default class App extends React.Component {
     const { email, password } = this.state;
 
     if(email === EMAIL && password === PASSWORD){
-      this.setState({screen: 'socialfeed'});
       this.correctAlert();
     }else{
       this.incorrectAlert();
@@ -39,7 +45,7 @@ export default class App extends React.Component {
       'Success',
       `Email: ${email} Password: ${password}`,
       [
-        { text: 'OK', onPress: () => console.log('OK pressed') }
+        { text: 'OK', onPress: () => this.props.navigation.navigate('Home') }
       ],
       { cancelable: false }
     )

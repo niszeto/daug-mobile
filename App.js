@@ -1,12 +1,16 @@
 import React from 'react';
-import { StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-import IntroScreen from './app/screens/IntroScreen'
+import IntroStack from './app/navigation/IntroStack';
+import HomeTabs from './app/navigation/HomeTabs';
+import RootNavigator from './app/navigation/RootNavigator';
 
 export default class App extends React.Component {
 
   render() {
-    return <IntroScreen/>
+    return (
+      <RootNavigator/>
+    )
   }
 }
 

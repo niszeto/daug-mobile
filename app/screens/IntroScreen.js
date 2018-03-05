@@ -9,7 +9,13 @@ import IntroSlider from '../components/IntroSlider';
 import SocialFeedScreen from './SocialFeedScreen';
 import ProfileScreen from './ProfileScreen';
 
+import IntroStack from '../navigation/IntroStack';
+
 export default class App extends React.Component {
+
+  static navigationOptions = {
+    header: null
+  };
 
   constructor(props) {
     super(props);
@@ -57,14 +63,14 @@ export default class App extends React.Component {
             <Button
               style={styles.buttonContainer}
               title='Login'
-              onPress={this.changeState.bind(this, 'login')}
+              onPress={() => this.props.navigation.navigate('Login')}
               color='white'
             />
 
             <Button
               style={styles.buttonContainer}
               title='Sign Up'
-              onPress={this.changeState.bind(this, 'signup')}
+              onPress={() => this.props.navigation.navigate('Signup')}
               color='white'
             />
 

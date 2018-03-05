@@ -8,6 +8,13 @@ import IntroScreen from './IntroScreen';
 
 export default class App extends React.Component {
 
+  static navigationOptions = {
+    title: 'Sign up',
+    headerStyle: { backgroundColor: '#2F80ED', borderBottomWidth: 0, },
+    headerTintColor: 'white',
+    headerTitleStyle: { color: 'white', fontSize: 20 }
+  };
+
   constructor(props) {
     super(props);
 
@@ -26,12 +33,12 @@ export default class App extends React.Component {
       'Success',
       `Name: ${name} Email: ${email} Password: ${password}`,
       [
-        { text: 'OK', onPress: () => console.log('OK pressed') }
+        { text: 'OK', onPress: () => this.props.navigation.navigate('Home') }
       ],
       { cancelable: false }
     )
 
-    this.setState({screen: 'homescreen'});
+    this.setState({ screen: 'homescreen' });
   }
 
   isCredentialsEmpty() {
@@ -44,8 +51,8 @@ export default class App extends React.Component {
   render() {
     const { name, email, password, screen } = this.state;
 
-    if(screen === 'homescreen'){
-      return <IntroScreen/>
+    if (screen === 'homescreen') {
+      return <IntroScreen />
     }
 
     return (
