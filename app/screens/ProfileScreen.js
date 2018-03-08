@@ -13,10 +13,6 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
 
-    // this.state = {
-    //   screen: null
-    // };
-
   }
 
   buttonPressed = () => {
@@ -25,14 +21,6 @@ export default class App extends React.Component {
 
 
   render() {
-    // const { profile } = this.props;
-
-    // const { screen } = this.state;
-
-    // if (screen === 'homescreen') {
-    //   return <IntroScreen />
-    // }
-
     return (
       <View style={styles.mainContainer}>
 
@@ -112,41 +100,34 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     justifyContent: 'center',
-    // backgroundColor: 'white',
   },
 
   headerImage: {
     flex: 2,
-    // backgroundColor: 'yellow',
   },
 
   contentContainer: {
     flex: 2,
     backgroundColor: '#F9F9F9',
-    // backgroundColor: 'blue',
   },
 
   profileDetailsMainContainer: {
     flex: 1,
-    // backgroundColor: 'black'
   },
 
   profileDetailsSubContainer: {
     flex: 1,
     flexDirection: 'row',
-    // backgroundColor: 'green'
   },
 
   avatarContainer: {
     flex: 1,
     borderRadius: 30,
     marginLeft: 20,
-    // backgroundColor: 'pink'
   },
 
   textAndButtonContainer: {
     flex: 3,
-    // backgroundColor: 'white',
   },
 
   textContainer: {
@@ -154,7 +135,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    // backgroundColor: 'purple',
   },
 
   textSubContainer: {
@@ -164,7 +144,6 @@ const styles = StyleSheet.create({
   editProfileButtonContainer: {
     flex: 1,
     justifyContent: 'center',
-    // backgroundColor: 'orange',
   },
 
   textStyle: {
@@ -182,7 +161,6 @@ const styles = StyleSheet.create({
     flex: 4,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: 'red',
   },
 
   logoutButtonContainer: {

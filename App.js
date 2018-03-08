@@ -5,11 +5,18 @@ import IntroStack from './app/navigation/IntroStack';
 import HomeTabs from './app/navigation/HomeTabs';
 import RootNavigator from './app/navigation/RootNavigator';
 
+import EditProfileScreen from './app/screens/EditProfileScreen';
+import CreatePostScreen from './app/screens/CreatePostScreen';
+import PostDetailScreen from './app/screens/PostDetailScreen';
+
 export default class App extends React.Component {
 
   render() {
     return (
-      <RootNavigator/>
+      // <RootNavigator/>
+      // <EditProfileScreen/>
+      <PostDetailScreen/>
+      // <CreatePostScreen/>
     )
   }
 }

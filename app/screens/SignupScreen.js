@@ -22,7 +22,6 @@ export default class App extends React.Component {
       name: '',
       email: '',
       password: '',
-      screen: null
     }
   }
 
@@ -38,7 +37,6 @@ export default class App extends React.Component {
       { cancelable: false }
     )
 
-    this.setState({ screen: 'homescreen' });
   }
 
   isCredentialsEmpty() {
@@ -50,10 +48,6 @@ export default class App extends React.Component {
 
   render() {
     const { name, email, password, screen } = this.state;
-
-    if (screen === 'homescreen') {
-      return <IntroScreen />
-    }
 
     return (
 

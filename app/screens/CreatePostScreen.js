@@ -21,10 +21,7 @@ export default class App extends React.Component {
     return (
       <View style={styles.itemContainer}>
 
-        <TouchableOpacity
-        // onPress={({ item }) => this.renderProfile({ item })}
-        // onPress={this.goToProfile}
-        >
+        <TouchableOpacity>
           <View style={styles.headerContainer}>
             <Image
               source={{ uri: item.image }}
@@ -57,21 +54,6 @@ export default class App extends React.Component {
         <View style={styles.timeAndButtonContainer}>
           <Text style={styles.date}>{item.post['date']}</Text>
           <View style={styles.buttonContainer}>
-            {/* <Ionicons
-              style={styles.icon}
-              name="ios-paper-plane-outline"
-              size={30}
-              color='#085947'
-            /> */}
-
-            <Ionicons
-              style={styles.icon}
-              name="ios-chatbubbles-outline"
-              size={30}
-              color='#085947'
-            />
-
-            <Text style={styles.iconNumbers}>96</Text>
 
             <Ionicons
               style={styles.icon}

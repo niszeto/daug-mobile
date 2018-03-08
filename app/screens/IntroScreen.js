@@ -1,14 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, Button } from 'react-native';
-
 import { LinearGradient } from 'expo';
-
-import LoginScreen from './LoginScreen';
-import SignupScreen from './SignupScreen';
 import IntroSlider from '../components/IntroSlider';
-import SocialFeedScreen from './SocialFeedScreen';
-import ProfileScreen from './ProfileScreen';
-
 import IntroStack from '../navigation/IntroStack';
 
 export default class App extends React.Component {
@@ -21,10 +14,6 @@ export default class App extends React.Component {
     super(props);
 
     this.state = {
-      // screen: 'login'
-      // screen: 'signup'
-      // screen: 'socialfeed'
-      // screen: 'profile'
 
     }
 
@@ -38,22 +27,11 @@ export default class App extends React.Component {
   render() {
 
     const { screen } = this.state;
-    // const { profile } = this.props;
-
-    if (screen === 'login') {
-      return <LoginScreen />
-    } else if (screen === 'signup') {
-      return <SignupScreen />
-    } else if(screen === 'socialfeed'){
-      return <SocialFeedScreen/>
-    }else if(screen === 'profile'){
-      return <ProfileScreen/>
-    }else {
       return (
 
         <View style={styles.mainContainer}>
 
-          <IntroSlider />
+          <IntroSlider/>
 
           <LinearGradient
             style={styles.footerContainer}
@@ -79,7 +57,6 @@ export default class App extends React.Component {
         </View>
 
       );
-    }
   }
 }
 
