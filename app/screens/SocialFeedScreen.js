@@ -1,10 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, FlatList, Image, TouchableOpacity } from 'react-native';
 import { SOCIAL_FEED_MOCK_DATA } from '../constants';
-
 import { Ionicons } from '@expo/vector-icons';
-
-import ProfileScreen from './ProfileScreen';
 
 export default class App extends React.Component {
 
@@ -15,6 +12,10 @@ export default class App extends React.Component {
       screen: null
     };
   }
+  
+  goToProfile = () => {
+    this.props.navigation.navigate('Profile');
+  }
 
   //render one post
   renderItem = ({ item }) => {
@@ -23,7 +24,7 @@ export default class App extends React.Component {
 
         <TouchableOpacity
         // onPress={({ item }) => this.renderProfile({ item })}
-        // onPress={this.goToProfile}
+        onPress={this.goToProfile}
         >
           <View style={styles.headerContainer}>
             <Image

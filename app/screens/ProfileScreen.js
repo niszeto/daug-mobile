@@ -7,7 +7,10 @@ import IntroScreen from './IntroScreen';
 export default class App extends React.Component {
 
   static navigationOptions = {
-    header: null
+    title: 'Profile',
+    headerStyle: { backgroundColor: '#2F80ED', borderBottomWidth: 0, },
+    headerTintColor: 'white',
+    headerTitleStyle: { color: 'white', fontSize: 20 }
   };
 
   constructor(props) {
@@ -16,7 +19,7 @@ export default class App extends React.Component {
   }
 
   buttonPressed = () => {
-    this.props.navigation.navigate('Intro');
+    this.props.navigation.navigate('Edit');
   }
 
 
@@ -64,7 +67,7 @@ export default class App extends React.Component {
                 <View style={styles.editProfileButtonContainer}>
                   <Button
                     text='edit profile'
-                    transparent={true}
+                    onPress={this.buttonPressed}
                   />
                 </View>
 

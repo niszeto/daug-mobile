@@ -8,6 +8,13 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default class App extends React.Component {
 
+  static navigationOptions = {
+    title: 'Login',
+    headerStyle: { backgroundColor: '#2F80ED', borderBottomWidth: 0, },
+    headerTintColor: 'white',
+    headerTitleStyle: { color: 'white', fontSize: 20 }
+  };
+
   constructor(props){
     super(props);
 

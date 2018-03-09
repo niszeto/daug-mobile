@@ -1,10 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, FlatList, Image, TouchableOpacity } from 'react-native';
-import { SOCIAL_FEED_MOCK_DATA } from '../constants';
-
-import { Ionicons } from '@expo/vector-icons';
-
-import ProfileScreen from './ProfileScreen';
+import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 
 export default class App extends React.Component {
 
@@ -16,73 +11,39 @@ export default class App extends React.Component {
     };
   }
 
-  //render one post
-  renderItem = ({ item }) => {
-    return (
-      <View style={styles.itemContainer}>
-
-        <TouchableOpacity>
-          <View style={styles.headerContainer}>
-            <Image
-              source={{ uri: item.image }}
-              style={{
-                //always set width and height when getting a picture online
-                borderRadius: 25,
-                width: 50,
-                height: 50,
-                margin: 10,
-              }}
-            />
-
-            <View style={styles.nameAndLocationContainer}>
-              <Text>{item.name}</Text>
-              <Text>{item.location}</Text>
-            </View>
-          </View>
-        </TouchableOpacity>
-
-        <Image
-          source={{ uri: item.post['image'] }}
-          style={{
-            width: '100%',
-            height: 300,
-          }}
-          cover={true}
-        />
-        <Text style={styles.caption}>{item.post['caption']}</Text>
-
-        <View style={styles.timeAndButtonContainer}>
-          <Text style={styles.date}>{item.post['date']}</Text>
-          <View style={styles.buttonContainer}>
-
-            <Ionicons
-              style={styles.icon}
-              name="ios-heart-outline"
-              size={30}
-              color='#085947'
-            />
-            <Text style={styles.iconNumbers}>91939</Text>
-
-
-          </View>
-        </View>
-
-      </View>
-    );
-  }
-
   render() {
     return (
-      <ScrollView style={styles.mainContainer}>
+      <View style={styles.mainContainer}>
+        <View style={styles.profileInformationContainer}>
+          <TouchableOpacity>
+            <View style={styles.headerContainer}>
+              <Image
+                source={{ uri: 'https://vignette.wikia.nocookie.net/en.futurama/images/1/13/Planet_express.png/revision/latest?cb=20130716185556' }}
+                style={{
+                  borderRadius: 25,
+                  width: 50,
+                  height: 50,
+                  margin: 10,
+                }}
+              />
+                <View style={styles.nameAndLocationContainer}>
+                  <Text>Alphonse Elric</Text>
+                  <Text>Location</Text>
+                </View>
+            </View>
+          </TouchableOpacity>
+          <View style={styles.descriptionContainer}>
 
-        <FlatList
-          data={SOCIAL_FEED_MOCK_DATA}
-          style={styles.mainContainer}
-          renderItem={({ item, seperator }) => this.renderItem({ item })}
-          keyExtractor={(item, index) => index}
-        />
+          </View>
+          <Text>What's on your mind</Text>
 
-      </ScrollView>
+          
+        </View>
+
+        <View style={styles.commentContainer}>
+
+        </View>
+      </View>
     );
   }
 }
@@ -90,50 +51,31 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
 
   mainContainer: {
-    flexGrow: 1,
+    flex: 1,
     marginTop: 20,
   },
 
-  itemContainer: {
-
+  profileInformationContainer:{
+    flex: 1,
+    backgroundColor: 'yellow',
   },
 
   headerContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
+
+    backgroundColor: 'red',
   },
 
-  nameAndLocationContainer: {
-    padding: 10,
-  },
+  descriptionContainer: {
 
-  timeAndButtonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between'
   },
+  
+  commentContainer: {
+    flex: 1,
 
-  buttonContainer: {
-    flexDirection: 'row',
-    padding: 20,
-  },
-
-  icon: {
-    paddingRight: 10,
-    paddingLeft: 10,
-  },
-
-  iconNumbers: {
-    padding: 5,
-  },
-
-  caption: {
-    padding: 10,
-    backgroundColor: '#F9F9F9',
-  },
-
-  date: {
-    padding: 20,
+    backgroundColor: 'blue',
   },
 
 });

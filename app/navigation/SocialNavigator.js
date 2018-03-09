@@ -3,19 +3,22 @@ import { StackNavigator } from 'react-navigation';
 import ProfilePage from '../screens/ProfileScreen';
 import PostDetails from '../screens/PostDetailScreen';
 import EditProfile from '../screens/EditProfileScreen';
+import CreatePost from '../screens/CreatePostScreen';
+import SocialStack from '../navigation/SocialStack';
 import IntroStack from './IntroStack'
 
-export default StackNavigator({
-  Profile: {
-    screen: ProfilePage
+const SocialNavigator = StackNavigator({
+  SocialStack: {
+    screen: SocialStack
   },
 
-  Post: {
-    screen: PostDetails
-  },
+  CreatePost: {
+    screen: CreatePost
+  }
 }, {
-  initialRouteName: 'Profile',
+  initialRouteName: 'SocialStack',
   mode: 'modal',
   headerMode: 'none'
-}
-);
+});
+
+export default SocialNavigator;

@@ -9,14 +9,19 @@ import EditProfileScreen from './app/screens/EditProfileScreen';
 import CreatePostScreen from './app/screens/CreatePostScreen';
 import PostDetailScreen from './app/screens/PostDetailScreen';
 
+import ProfileStack from './app/navigation/ProfileStack';
+
 export default class App extends React.Component {
 
   render() {
     return (
-      // <RootNavigator/>
       // <EditProfileScreen/>
-      <PostDetailScreen/>
+      // <PostDetailScreen/>
       // <CreatePostScreen/>
+
+
+      <RootNavigator/>
+
     )
   }
 }

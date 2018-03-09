@@ -4,9 +4,7 @@ import { LinearGradient } from 'expo';
 import { Button, Input } from 'react-native-elements';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-import SocialFeedScreen from './SocialFeedScreen';
-
-const EMAIL = 'clucky';
+const EMAIL = 'c';
 const PASSWORD = 'rn';
 
 export default class App extends React.Component {
@@ -24,7 +22,6 @@ export default class App extends React.Component {
     this.state = {
       email: '',
       password: '',
-      screen: null
     }
   }
 
@@ -70,11 +67,7 @@ export default class App extends React.Component {
 
 
   render() {
-    const { email, password, screen } = this.state;
-
-    if(screen === 'socialfeed'){
-      return <SocialFeedScreen/>
-    }
+    const { email, password } = this.state;
 
     return (
 

@@ -4,17 +4,20 @@ import { Platform } from 'react-native';
 import { TabNavigator } from 'react-navigation';
 import { SimpleLineIcons, Entypo } from '@expo/vector-icons';
 
-import SocialFeedScreen from '../screens/SocialFeedScreen';
-import ProfileScreen from '../screens/ProfileScreen';
+// import SocialFeedScreen from '../screens/SocialFeedScreen';
+// import ProfileScreen from '../screens/ProfileScreen';
+// import ProfileStack from './ProfileStack';
+import ProfileNavigator from './ProfileNavigator';
+import SocialNavigator from './SocialNavigator';
 
 const HomeTabs = TabNavigator({
   SocialTab: {
-    screen: SocialFeedScreen,
+    screen: SocialNavigator,
     navigationOptions: {
       tabBarLabel: 'Feed',
       tabBarIcon: ({ tintColor }) => (
-        <Entypo //icon type 
-          name='facebook' //name
+        <SimpleLineIcons 
+          name='layers'
           color={tintColor}
           size={Platform.OS === 'ios' ? 22 : 25}
         />
@@ -22,7 +25,7 @@ const HomeTabs = TabNavigator({
     }
   },
   ProfileTab: {
-    screen: ProfileScreen,
+    screen: ProfileNavigator,
     navigationOptions: {
       tabBarLabel: 'Profile',
       tabBarIcon: ({ tintColor }) => (
@@ -42,12 +45,8 @@ const HomeTabs = TabNavigator({
   tabBarOptions: {
     showIcon: true,
     showLabel: true,
-    // activeTintColor: '#fd746c',
-    activeTintColor: 'blue',
-
-    // inactiveTintColor: '#999999',
-    inactiveTintColor: 'red',
-
+    activeTintColor: '#fd746c',
+    inactiveTintColor: '#999999',
 
     style: {
       backgroundColor: '#ffffff',
