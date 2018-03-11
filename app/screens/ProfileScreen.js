@@ -3,98 +3,130 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import { Button } from 'react-native-elements';
 
 import IntroScreen from './IntroScreen';
+import { SOCIAL_FEED_MOCK_DATA } from '../constants';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default class App extends React.Component {
 
-  static navigationOptions = {
-    title: 'Profile',
-    headerStyle: { backgroundColor: '#2F80ED', borderBottomWidth: 0, },
-    headerTintColor: 'white',
-    headerTitleStyle: { color: 'white', fontSize: 20 }
+  static navigationOptions = ({navigation}) => {
+    return {
+      headerVisible: navigation.state.params ? navigation.state.params.isHeaderShowing : false,
+      title: 'Profile',
+      headerStyle: { backgroundColor: '#2F80ED', borderBottomWidth: 0, },
+      headerTintColor: 'white',
+      headerTitleStyle: { color: 'white', fontSize: 20 }
+    }
   };
 
   constructor(props) {
     super(props);
 
-  }
+    const user = props.navigation.state.params && props.navigation.state.params.user;
+    const isHeaderShowing = props.navigation.state.params && props.navigation.state.params.isHeaderShowing;
 
-  buttonPressed = () => {
-    this.props.navigation.navigate('Edit');
-  }
+    this.state = {
+      user: user || SOCIAL_FEED_MOCK_DATA[0].user,
+      isHeaderShowing: isHeaderShowing || false
+    }
 
+  }
 
   render() {
+    const {navigate} = this.props.navigation;
+    const {user, isHeaderShowing} = this.state;
+
     return (
-      <View style={styles.mainContainer}>
+      <ScrollView>
+        <View style={styles.mainContainer}>
 
-        <Image
-          style={styles.headerImage}
-          source={{ uri: 'https://static.pexels.com/photos/265393/pexels-photo-265393.jpeg' }}
-          resizeMode='cover'
-        />
+          <View style={styles.headerImageContainer}>
+            <Image
+              style={{
+                height: 175,
+                width: '100%'
+              }}
+              source={{uri: user.banner}}
+              resizeMode='cover'
+            />
+          </View>
 
-        <View style={styles.contentContainer}>
+          <View style={styles.contentContainer}>
 
-          <View style={styles.profileDetailsMainContainer}>
+            <View style={styles.profileDetailsMainContainer}>
 
-            <View style={styles.profileDetailsSubContainer}>
-              <Image
-                style={styles.avatarContainer}
-                source={{ uri: 'https://static.pexels.com/photos/458825/pexels-photo-458825.jpeg' }}
-                resizeMode='cover'
-              />
-
-              <View style={styles.textAndButtonContainer}>
-
-                <View style={styles.textContainer}>
-
-                  <View style={styles.textSubContainer}>
-                    <Text style={styles.textStyle}>1</Text>
-                    <Text>Posts</Text>
-                  </View>
-
-                  <View style={styles.textSubContainer}>
-                    <Text style={styles.textStyle}>80619960</Text>
-                    <Text>Followers</Text>
-                  </View>
-                  <View style={styles.textSubContainer}>
-                    <Text style={styles.textStyle}>0</Text>
-                    <Text>Following</Text>
-                  </View>
-
+              <View style={styles.profileDetailsSubContainer}>
+                <View style={styles.avatarContainer}>
+                  <Image
+                    style={{
+                      height: 100,
+                      width: 100,
+                      borderRadius: 50,
+                    }}
+                    source={{ uri: user.image }}
+                    resizeMode='cover'
+                  />
                 </View>
 
-                <View style={styles.editProfileButtonContainer}>
-                  <Button
-                    text='edit profile'
-                    onPress={this.buttonPressed}
-                  />
+                <View style={styles.textAndButtonContainer}>
+
+                  <View style={styles.textContainer}>
+
+                    <View style={styles.textSubContainer}>
+                      <Text style={styles.textStyle}>{user.posts ? user.posts.length : '0'}</Text>
+                      <Text>Posts</Text>
+                    </View>
+
+                    <View style={styles.textSubContainer}>
+                      <Text style={styles.textStyle}>{user.followers}</Text>
+                      <Text>Followers</Text>
+                    </View>
+                    <View style={styles.textSubContainer}>
+                      <Text style={styles.textStyle}>{user.following}</Text>
+                      <Text>Following</Text>
+                    </View>
+
+                  </View>
+
+                  <View style={styles.editProfileButtonContainer}>
+                    {
+                      !isHeaderShowing ?
+                        <Button
+                          text='Edit Profile'
+                          onPress={() => navigate('Edit')}
+                        /> :
+                        
+                        <Button
+                          text='Follow'
+                          onPress={() => console.log('Followed')}
+                        />
+                    }
+                  </View>
+
                 </View>
 
               </View>
 
             </View>
 
+            <View style={styles.descriptionContainer}>
+              <Text>Clucky</Text>
+              <Text>World's thickest and juiciest chicken around!</Text>
+            </View>
+
           </View>
 
-          <View style={styles.descriptionContainer}>
-            <Text>Clucky</Text>
-            <Text>World's thickest and juiciest chicken around!</Text>
+
+          <View style={styles.footerContainer}>
+            <Button
+              style={styles.logoutButtonContainer}
+              text='Logout'
+              onPress={() => this.props.navigation.navigate('Intro')}
+              textStyle={styles.buttonTextStyle}
+            />
           </View>
 
         </View>
-
-
-        <View style={styles.footerContainer}>
-          <Button
-            style={styles.logoutButtonContainer}
-            text='Logout'
-            onPress={() => this.props.navigation.navigate('Intro')}
-            textStyle={styles.buttonTextStyle}
-          />
-        </View>
-
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -105,7 +137,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  headerImage: {
+  headerImageContainer: {
     flex: 2,
   },
 
@@ -125,7 +157,6 @@ const styles = StyleSheet.create({
 
   avatarContainer: {
     flex: 1,
-    borderRadius: 30,
     marginLeft: 20,
   },
 

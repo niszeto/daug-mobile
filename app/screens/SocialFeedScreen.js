@@ -1,7 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, FlatList, Image, TouchableOpacity } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { SOCIAL_FEED_MOCK_DATA } from '../constants';
-import { Ionicons } from '@expo/vector-icons';
+import {  } from '@expo/vector-icons';
+import { FontAwesome, SimpleLineIcons, Ionicons } from '@expo/vector-icons';
 
 export default class App extends React.Component {
 
@@ -18,21 +20,14 @@ export default class App extends React.Component {
 
     this.state = {
       screen: null,
+      fontLoaded: false,
       isCommented: false,
       isLiked: false,
     };
   }
-  
-  goToProfile = () => {
-    this.props.navigation.navigate('Profile');
-  }
 
-  goToPostDetail = () => {
-    this.props.navigation.navigate('PostDetail');
-  }
-
-  createPost = () => {
-    this.props.navigation.navigate('CreatePost');
+  async componentDidMount(){
+    
   }
 
   //render one post
@@ -44,15 +39,12 @@ export default class App extends React.Component {
       <View style={styles.itemContainer} key={member}>
 
         <TouchableOpacity
-        // onPress={({ item }) => this.renderProfile({ item })}
-        // onPress={this.goToProfile}
         onPress={() => navigate('Profile',{isHeaderShowing: true, user: member.user})}
         >
           <View style={styles.headerContainer}>
             <Image
               source={{ uri: member.image }}
               style={{
-                //always set width and height when getting a picture online
                 borderRadius: 25,
                 width: 50,
                 height: 50,
@@ -68,8 +60,7 @@ export default class App extends React.Component {
         </TouchableOpacity>
 
         <TouchableOpacity 
-          // onPress={this.goToPostDetail}
-          onPress={() => navigate('Post', {post: member})}
+          onPress={() => navigate('PostDetail', {post: member})}
         >
           <Image
               source={{ uri: member.image }}
@@ -86,29 +77,30 @@ export default class App extends React.Component {
         <View style={styles.timeAndButtonContainer}>
           <Text style={styles.date}>{member.date}</Text>
           <View style={styles.buttonContainer}>
-            {/* <Ionicons
-              style={styles.icon}
-              name="ios-paper-plane-outline"
-              size={30}
-              color='#085947'
-            /> */}
+            <TouchableOpacity
+              onPress={() => this.setState({isCommented: !isCommented})}
+            >
+              <Ionicons
+                style={styles.icon}
+                name={ isCommented ? "ios-chatbubbles" : "ios-chatbubbles-outline"}
+                color={isCommented ? 'black' : null}
+                size={30}
+              />
+            </TouchableOpacity>
 
-            <Ionicons
-              style={styles.icon}
-              name="ios-chatbubbles-outline"
-              size={30}
-              color='#085947'
-            />
+            <Text style={styles.iconNumbers}>{member.likes}</Text>
 
-            <Text style={styles.iconNumbers}>96</Text>
-
-            <Ionicons
-              style={styles.icon}
-              name="ios-heart-outline"
-              size={30}
-              color='#085947'
-            />
-            <Text style={styles.iconNumbers}>91939</Text>
+            <TouchableOpacity
+              onPress={() => this.setState({isLiked: !isLiked})}
+            >
+              <Ionicons
+                style={styles.icon}
+                name={ isLiked ? "ios-heart" : "ios-heart-outline"}
+                color={isLiked ? 'red' : null}
+                size={30}
+              />
+            </TouchableOpacity>
+            <Text style={styles.iconNumbers}>{member.comments ? member.comments.length : 0}</Text>
 
 
           </View>
