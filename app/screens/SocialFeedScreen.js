@@ -1,8 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, FlatList, Image, TouchableOpacity } from 'react-native';
-import { Icon } from 'react-native-elements';
 import { SOCIAL_FEED_MOCK_DATA } from '../constants';
-import {  } from '@expo/vector-icons';
 import { FontAwesome, SimpleLineIcons, Ionicons } from '@expo/vector-icons';
 
 export default class App extends React.Component {
@@ -24,10 +22,6 @@ export default class App extends React.Component {
       isCommented: false,
       isLiked: false,
     };
-  }
-
-  async componentDidMount(){
-    
   }
 
   //render one post

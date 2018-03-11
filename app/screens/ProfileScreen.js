@@ -109,20 +109,23 @@ export default class App extends React.Component {
             </View>
 
             <View style={styles.descriptionContainer}>
-              <Text>Clucky</Text>
-              <Text>World's thickest and juiciest chicken around!</Text>
+              <Text>{user.name}</Text>
+              <Text>{user.bio}</Text>
             </View>
 
           </View>
-
-
+          
+          <Text>{user.posts ? user.posts.length : 'NO' } POSTS</Text>
           <View style={styles.footerContainer}>
+          {
+            !isHeaderShowing &&
             <Button
               style={styles.logoutButtonContainer}
               text='Logout'
               onPress={() => this.props.navigation.navigate('Intro')}
               textStyle={styles.buttonTextStyle}
             />
+          }
           </View>
 
         </View>
