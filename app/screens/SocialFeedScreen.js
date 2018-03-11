@@ -17,7 +17,9 @@ export default class App extends React.Component {
     super(props);
 
     this.state = {
-      screen: null
+      screen: null,
+      isCommented: false,
+      isLiked: false,
     };
   }
   
@@ -34,17 +36,21 @@ export default class App extends React.Component {
   }
 
   //render one post
-  renderItem = ({ item }) => {
+  renderMemberPost = (member) => {
+    const {isCommented, isLiked} = this.state;
+    const {navigate} = this.props.navigation;
+
     return (
-      <View style={styles.itemContainer}>
+      <View style={styles.itemContainer} key={member}>
 
         <TouchableOpacity
         // onPress={({ item }) => this.renderProfile({ item })}
-        onPress={this.goToProfile}
+        // onPress={this.goToProfile}
+        onPress={() => navigate('Profile',{isHeaderShowing: true, user: member.user})}
         >
           <View style={styles.headerContainer}>
             <Image
-              source={{ uri: item.image }}
+              source={{ uri: member.image }}
               style={{
                 //always set width and height when getting a picture online
                 borderRadius: 25,
@@ -55,28 +61,30 @@ export default class App extends React.Component {
             />
 
             <View style={styles.nameAndLocationContainer}>
-              <Text>{item.name}</Text>
-              <Text>{item.location}</Text>
+              <Text>{member.user.name}</Text>
+              <Text>{member.location}</Text>
             </View>
           </View>
         </TouchableOpacity>
 
         <TouchableOpacity 
-          onPress={this.goToPostDetail}
+          // onPress={this.goToPostDetail}
+          onPress={() => navigate('Post', {post: member})}
         >
           <Image
-              source={{ uri: item.post['image'] }}
+              source={{ uri: member.image }}
               style={{
                 width: '100%',
                 height: 300,
               }}
+              resizeMode='cover'
               cover={true}
           />
         </TouchableOpacity>
-        <Text style={styles.caption}>{item.post['caption']}</Text>
+        <Text style={styles.caption}>{member.caption}</Text>
 
         <View style={styles.timeAndButtonContainer}>
-          <Text style={styles.date}>{item.post['date']}</Text>
+          <Text style={styles.date}>{member.date}</Text>
           <View style={styles.buttonContainer}>
             {/* <Ionicons
               style={styles.icon}
@@ -111,14 +119,18 @@ export default class App extends React.Component {
   }
 
   render() {
+    const {navigate} = this.props.navigation;
+
     return (
       <ScrollView style={styles.mainContainer}>
 
         <FlatList
           data={SOCIAL_FEED_MOCK_DATA}
           style={styles.mainContainer}
-          renderItem={({ item, seperator }) => this.renderItem({ item })}
+          extraData={this.state}
           keyExtractor={(item, index) => index}
+          renderItem={({ item }) => this.renderMemberPost(item)}
+
         />
 
       </ScrollView>

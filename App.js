@@ -8,6 +8,7 @@ import RootNavigator from './app/navigation/RootNavigator';
 import EditProfileScreen from './app/screens/EditProfileScreen';
 import CreatePostScreen from './app/screens/CreatePostScreen';
 import PostDetailScreen from './app/screens/PostDetailScreen';
+import SocialFeedScreen from './app/screens/SocialFeedScreen';
 
 import ProfileStack from './app/navigation/ProfileStack';
 
@@ -18,7 +19,6 @@ export default class App extends React.Component {
 
       // <CreatePostScreen/>
       // <EditProfileScreen/>
-
       <RootNavigator/>
 
     )
