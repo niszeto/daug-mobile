@@ -1,15 +1,15 @@
 import { StackNavigator }  from 'react-navigation';
 
 import SocialFeedScreen from '../screens/SocialFeedScreen';
-import PostScreen from '../screens/PostDetailScreen';
+import PostDetailScreen from '../screens/PostDetailScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 
 const SocialStack = StackNavigator({
-  Social: {
+  SocialFeed: {
     screen: SocialFeedScreen
   },
-  Post: {
-    screen: PostScreen
+  PostDetail: {
+    screen: PostDetailScreen
   },
   Profile: {
     screen: ProfileScreen

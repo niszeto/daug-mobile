@@ -15,10 +15,9 @@ export default class App extends React.Component {
 
   render() {
     return (
-      // <EditProfileScreen/>
-      // <PostDetailScreen/>
-      // <CreatePostScreen/>
 
+      // <CreatePostScreen/>
+      // <EditProfileScreen/>
 
       <RootNavigator/>
 

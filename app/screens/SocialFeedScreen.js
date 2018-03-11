@@ -5,6 +5,14 @@ import { Ionicons } from '@expo/vector-icons';
 
 export default class App extends React.Component {
 
+  static navigationOptions = ({ navigation }) => ({
+    title: 'Daug',
+    headerTintColor: '#fd746c',
+    headerTitleStyle: {
+      fontSize: 20
+    },
+  });
+
   constructor(props){
     super(props);
 
@@ -15,6 +23,14 @@ export default class App extends React.Component {
   
   goToProfile = () => {
     this.props.navigation.navigate('Profile');
+  }
+
+  goToPostDetail = () => {
+    this.props.navigation.navigate('PostDetail');
+  }
+
+  createPost = () => {
+    this.props.navigation.navigate('CreatePost');
   }
 
   //render one post
@@ -45,14 +61,18 @@ export default class App extends React.Component {
           </View>
         </TouchableOpacity>
 
-        <Image
-          source={{ uri: item.post['image'] }}
-          style={{
-            width: '100%',
-            height: 300,
-          }}
-          cover={true}
-        />
+        <TouchableOpacity 
+          onPress={this.goToPostDetail}
+        >
+          <Image
+              source={{ uri: item.post['image'] }}
+              style={{
+                width: '100%',
+                height: 300,
+              }}
+              cover={true}
+          />
+        </TouchableOpacity>
         <Text style={styles.caption}>{item.post['caption']}</Text>
 
         <View style={styles.timeAndButtonContainer}>
@@ -110,11 +130,11 @@ const styles = StyleSheet.create({
 
   mainContainer: {
     flexGrow: 1,
-    marginTop: 20,
   },
 
   itemContainer: {
-
+    borderWidth: 0.25,
+    borderBottomColor: 'gray',
   },
 
   headerContainer: {

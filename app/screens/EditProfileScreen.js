@@ -9,7 +9,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 export default class App extends React.Component {
 
   static navigationOptions = {
-    title: 'Login',
+    title: 'Edit Profile',
     headerStyle: { backgroundColor: '#2F80ED', borderBottomWidth: 0, },
     headerTintColor: 'white',
     headerTitleStyle: { color: 'white', fontSize: 20 }
@@ -49,15 +49,15 @@ export default class App extends React.Component {
                 value={name}
                 onChangeText={name => this.setState({ name })}
                 placeholder="Enter your name here."
-                placeholderTextColor="white"
+                placeholderTextColor="gray"
                 autoCapitalize="none"
                 keyboardType="default"
                 returnKeyType="next"
                 displayError={false}
                 errorMessage="Please enter a valid name"
-                errorStyle={{ color: 'white' }}
-                containerStyle={styles.textInput}
-                inputStyle={{ color: 'white' }}
+                errorStyle={{ color: 'black' }}
+                containerStyle={styles.textStyle}
+                inputStyle={styles.textInputStyle}
               />
             </View>
 
@@ -67,43 +67,40 @@ export default class App extends React.Component {
                 value={bio}
                 onChangeText={bio => this.setState({ bio })}
                 placeholder="Write your bio here."
-                placeholderTextColor="white"
+                placeholderTextColor="gray"
                 autoCapitalize="none"
                 keyboardType="default"
                 returnKeyType="next"
                 displayError={false}
-                errorStyle={{ color: 'white' }}
-                containerStyle={styles.textInput}
-                inputStyle={{ color: 'white' }}
+                errorStyle={{ color: 'black' }}
+                containerStyle={styles.textStyle}
+                inputStyle={styles.textInputStyle}
               />
             </View>
           </View>
           
-          
           <View style={styles.privateInformationContainer}>
-            <Text>Private Information</Text>  
+            <View style={styles.privateInformationTextContainer}>
+              <Text style={styles.privateInformationText}>Private Information</Text>  
+            </View>
             <View style={styles.emailContainer}>
               <Text>Email</Text>
               <Input
                 value={email}
                 onChangeText={email => this.setState({ email })}
                 placeholder="Enter your email here."
-                placeholderTextColor="white"
+                placeholderTextColor="gray"
                 autoCapitalize="none"
                 keyboardType="email-address"
                 returnKeyType="next"
                 displayError={false}
                 errorMessage="Please enter a valid email address"
-                errorStyle={{ color: 'white' }}
-                containerStyle={styles.textInput}
-                inputStyle={{ color: 'white' }}
+                errorStyle={{ color: 'black' }}
+                containerStyle={styles.textStyle}
+                inputStyle={styles.textInputStyle}
               />
             </View>
           </View>
-          
-        </View>
-        <View style={styles.footerContainer}>
-              
         </View>
       </View>
     );
@@ -117,42 +114,64 @@ const styles = StyleSheet.create({
   },
 
   headerContainer: {
-    flex: 2,
+    width: '100%',
+    height: '40%',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'blue',
   },
 
   changePhotoText: {
-    backgroundColor: 'green',
+    marginTop: 20,
+    fontSize: 20,
   },
 
   accountInformationContainer: {
-    flex: 2,
+    width: '100%',
+    height: '40%',
     justifyContent: 'flex-start',
     alignItems: 'center',
-
-    backgroundColor: 'red',
   },
 
   generalInformationContainer: {
     flex: 1,
+    width: '90%'
   },
 
   privateInformationContainer:{
     flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%'
+  },
+  
+  privateInformationTextContainer:{
+    width: '100%',
+    backgroundColor: 'gray',
+    marginTop: 30,
+    marginBottom: 5
+  },
+
+  privateInformationText: {
+    fontSize: 16,
+    marginLeft: 15,
+    marginTop: 20,
+    marginBottom: 15,
   },
 
   emailContainer: {
-
-  },
-
-  textInput: {
-    backgroundColor: 'black'
-  },
-
-  footerContainer: {
     flex: 1,
-    backgroundColor: 'yellow',
+    width: '90%'
+  },
+
+  textStyle: {
+    marginTop: 10,
+    marginBottom: 10,
+    width: '100%',
+  },
+
+  textInputStyle: {
+    color: 'black',
+    width: '100%'
   }
+
 });

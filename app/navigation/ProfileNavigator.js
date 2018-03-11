@@ -13,10 +13,6 @@ const ProfileNavigator = StackNavigator({
   Edit: {
     screen: EditProfile
   }
-}, {
-    initialRouteName: 'ProfileStack',
-    mode: 'modal',
-    headerMode: 'none'
-  });
+});
 
 export default ProfileNavigator;

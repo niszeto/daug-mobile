@@ -149,8 +149,7 @@ const styles = StyleSheet.create({
 
   commentContainer: {
     flex: 2,
-
-    // backgroundColor: 'red',
+    marginTop: 30,
   },
 
 });
