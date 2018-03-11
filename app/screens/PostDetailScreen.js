@@ -2,25 +2,44 @@ import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { SOCIAL_FEED_MOCK_DATA } from '../constants';
 import { Ionicons } from '@expo/vector-icons';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default class App extends React.Component {
+
+  static navigationOptions = ({navigation}) => ({
+    headerTintColor: '#fd746c',
+    headerTitleStyle: {
+      fontSize: 20
+    },
+  });
 
   constructor(props){
     super(props);
 
+    const {post} = props.navigation.state.params;
+
     this.state = {
-      screen: null
+      member: post,
+      isCommented: false,
+      isLiked: false,      
     };
   }
 
   render() {
+    const { navigate } = this.props.navigation;
+    const { member, isCommented, isLiked } = this.state;
+    
+    const Component = member.comments ? ScrollView : View
+
     return (
       <View style={styles.mainContainer}>
-        <View style={styles.profileInformationContainer}>
-          <TouchableOpacity>
+        <View style={styles.profileInformationContainer} key={member}>
+          <TouchableOpacity
+            onPress={() => navigate('Profile', { isHeaderShow: true, user: member.user })}
+          >
             <View style={styles.headerContainer}>
               <Image
-                source={{ uri: 'https://vignette.wikia.nocookie.net/en.futurama/images/1/13/Planet_express.png/revision/latest?cb=20130716185556' }}
+                source={{ uri: member.user.image }}
                 style={{
                   borderRadius: 25,
                   width: 50,
@@ -28,38 +47,46 @@ export default class App extends React.Component {
                   margin: 10,
                 }}
               />
-              <Text>Iggi</Text>
+              <View style={styles.nameAndLocationContainer}>
+                <Text>{member.user.name}</Text>
+                <Text>{member.location}</Text>
+              </View>
             </View>
           </TouchableOpacity>
 
           <Image
-            source={{ uri: 'https://static.pexels.com/photos/164186/pexels-photo-164186.jpeg' }}
+            source={{ uri: member.user.image }}
             style={{
               width: '100%',
               height: '50%',
             }}
             cover={true}
           />
-          <Text style={styles.caption}>Planet Express, Inc. is the delivery compаny started by Professor Hubert J. Farnsworth to help fund his research and employs a range of individuals to help deliver packages to clients. </Text>
+          <Text style={styles.caption}>{member.caption}</Text>
 
           <View style={styles.timeAndButtonContainer}>
-            <Text style={styles.date}>3 hrs ago</Text>
+            <Text style={styles.date}>{member.date}</Text>
             <View style={styles.buttonContainer}>
 
-              <Ionicons
-                style={styles.icon}
-                name="ios-heart-outline"
-                size={30}
-                color='#085947'
-              />
-              <Text style={styles.iconNumbers}>91939</Text>
+              <TouchableOpacity
+                onPress={() => this.setState({isLiked: !isLiked})}
+              >
+                <Ionicons
+                  style={styles.icon}
+                  name={ isLiked ? "ios-heart" : "ios-heart-outline"}
+                  color={isLiked ? 'red' : null}
+                  size={30}
+                />
+              </TouchableOpacity>
+
+              <Text style={styles.iconNumbers}>{member.likes || 0}</Text>
 
             </View>
           </View>
         </View>
 
         <View style={styles.commentContainer}>
-          <Text>5 comments</Text>
+          <Text>{member.comments ? member.comments.length : 'NO'} COMMENTS</Text>
 
           <View style={styles.headerContainer}>
             <Image

@@ -82,7 +82,7 @@ export default class App extends React.Component {
               />
             </TouchableOpacity>
 
-            <Text style={styles.iconNumbers}>{member.likes}</Text>
+            <Text style={styles.iconNumbers}>{member.comments ? member.comments.length : 0}</Text>
 
             <TouchableOpacity
               onPress={() => this.setState({isLiked: !isLiked})}
@@ -94,8 +94,8 @@ export default class App extends React.Component {
                 size={30}
               />
             </TouchableOpacity>
-            <Text style={styles.iconNumbers}>{member.comments ? member.comments.length : 0}</Text>
 
+            <Text style={styles.iconNumbers}>{member.likes}</Text>
 
           </View>
         </View>
