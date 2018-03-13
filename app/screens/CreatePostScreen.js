@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
+import { Button, Input } from 'react-native-elements';
 
 export default class App extends React.Component {
 
@@ -7,9 +8,77 @@ export default class App extends React.Component {
     super(props);
 
     this.state = {
-      screen: null
+      screen: null,
+      description: ''
     };
   }
+
+  async createPost() {
+    // this.setState({ isLoading: true })
+
+    const { description } = this.state
+    const { navigate } = this.props.navigation
+
+    var details = {
+      'description' : description
+    };
+
+    var formBody = [];
+
+    for (var property in details) {
+      var encodedKey = encodeURIComponent(property);
+      var encodedValue = encodeURIComponent(details[property]);
+
+      formBody.push(encodedKey + "=" + encodedValue);
+    }
+
+    formBody = formBody.join("&");
+
+    try {
+      let response = await fetch(`https://daug-app.herokuapp.com/api/users/1/posts`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        },
+        body: formBody
+      });
+
+      let responseJSON = null
+
+      if (response.status === 201) {
+        responseJSON = await response.json();
+
+        console.log(responseJSON)
+
+        // this.setState({ isLoading: false })
+        Alert.alert(
+          'Post Created!',
+          'You have successfully created a post!',
+          [
+            { text: "Continue", onPress: () => navigate("Home") }
+          ],
+          { cancelable: false }
+        )
+      } else {
+        responseJSON = await response.json();
+        const error = responseJSON.message
+
+        console.log(responseJSON)
+
+        // this.setState({ isLoading: false, errors: responseJSON.errors })
+        this.setState({ errors: responseJSON.errors })
+
+        Alert.alert('Post not created!', `Unable to create post.. ${error}!`)
+      }
+    } catch (error) {
+      this.setState({ isLoading: false, response: error })
+
+      console.log(error)
+
+      Alert.alert('Create post failed!', 'Unable to Create Post. Please try again later')
+    }
+  }
+
 
   render() {
     return (
@@ -36,6 +105,14 @@ export default class App extends React.Component {
 
           </View>
           <Text>What's on your mind</Text>
+          <Input
+            onChangeText={description => this.setState({ description })}
+          >
+          </Input>
+          <Button
+            onPress={this.createPost.bind(this)}
+          >
+          </Button>
 
           
         </View>
@@ -57,7 +134,7 @@ const styles = StyleSheet.create({
 
   profileInformationContainer:{
     flex: 1,
-    backgroundColor: 'yellow',
+    // backgroundColor: 'yellow',
   },
 
   headerContainer: {
@@ -65,7 +142,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
 
-    backgroundColor: 'red',
+    // backgroundColor: 'red',
   },
 
   descriptionContainer: {
@@ -75,7 +152,7 @@ const styles = StyleSheet.create({
   commentContainer: {
     flex: 1,
 
-    backgroundColor: 'blue',
+    // backgroundColor: 'blue',
   },
 
 });

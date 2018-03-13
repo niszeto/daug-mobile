@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, ScrollView, FlatList, Image, TouchableOpacity } from 'react-native';
 import { SOCIAL_FEED_MOCK_DATA } from '../constants';
 import { FontAwesome, SimpleLineIcons, Ionicons } from '@expo/vector-icons';
+import { Button, Input } from 'react-native-elements';
 
 export default class App extends React.Component {
 
@@ -36,19 +37,33 @@ export default class App extends React.Component {
         onPress={() => navigate('Profile',{isHeaderShowing: true, user: member.user})}
         >
           <View style={styles.headerContainer}>
-            <Image
-              source={{ uri: member.image }}
-              style={{
-                borderRadius: 25,
-                width: 50,
-                height: 50,
-                margin: 10,
-              }}
-            />
+            <View style={styles.avatarNameLocationContainer}>
+              <Image
+                source={{ uri: member.image }}
+                style={{
+                  borderRadius: 25,
+                  width: 50,
+                  height: 50,
+                  margin: 10,
+                }}
+              />
 
-            <View style={styles.nameAndLocationContainer}>
-              <Text>{member.user.name}</Text>
-              <Text>{member.location}</Text>
+              <View style={styles.nameAndLocationContainer}>
+                <Text>{member.user.name}</Text>
+                <Text>{member.location}</Text>
+              </View>
+            </View>
+
+            <View style={styles.createPostContainer}>
+              <TouchableOpacity
+                onPress={ () => navigate('CreatePost')}
+              >
+                <Ionicons
+                  style={styles.icon}
+                  name={"ios-add-circle-outline"}
+                  size={30}
+                />
+              </TouchableOpacity>
             </View>
           </View>
         </TouchableOpacity>
@@ -137,12 +152,22 @@ const styles = StyleSheet.create({
 
   headerContainer: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+
+  avatarNameLocationContainer: {
+    flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
 
   nameAndLocationContainer: {
     padding: 10,
+  },
+
+  createPostContainer: {
+    
   },
 
   timeAndButtonContainer: {

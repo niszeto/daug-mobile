@@ -19,9 +19,30 @@ export default class App extends React.Component {
 
   }
 
-  changeState(state) {
-    this.setState({ screen: state })
-    console.log(this.state);
+  async componentDidMount(){
+    this.pingServer();
+  }
+
+  async pingServer() {
+    // Check server status
+    // Simple GET request to /api
+    try {
+      const response = await fetch(`https://daug-app.herokuapp.com/api`, {
+        method: 'GET'
+      });
+      const responseJSON = await response.json();
+      
+      if (response.status === 200) {
+        console.log(responseJSON.message);
+        console.log('Server up and running!');
+      } else {
+        const error = responseJSON.message
+
+        console.log("Server request failed " + error);
+      }
+    } catch (error) {
+      console.log("Server is down " + error);
+    }
   }
 
   render() {
