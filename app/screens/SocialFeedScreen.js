@@ -33,11 +33,11 @@ export default class App extends React.Component {
     return (
       <View style={styles.itemContainer} key={member}>
 
-        <TouchableOpacity
-        onPress={() => navigate('Profile',{isHeaderShowing: true, user: member.user})}
-        >
           <View style={styles.headerContainer}>
             <View style={styles.avatarNameLocationContainer}>
+            <TouchableOpacity
+              onPress={() => navigate('Profile',{isHeaderShowing: true, user: member.user})}
+            >
               <Image
                 source={{ uri: member.image }}
                 style={{
@@ -47,9 +47,15 @@ export default class App extends React.Component {
                   margin: 10,
                 }}
               />
-
+            </TouchableOpacity>
+            
               <View style={styles.nameAndLocationContainer}>
-                <Text>{member.user.name}</Text>
+                <TouchableOpacity
+                  onPress={() => navigate('Profile',{isHeaderShowing: true, user: member.user})}
+                >
+                  <Text>{member.user.name}</Text>
+                </TouchableOpacity>
+                
                 <Text>{member.location}</Text>
               </View>
             </View>
@@ -66,7 +72,6 @@ export default class App extends React.Component {
               </TouchableOpacity>
             </View>
           </View>
-        </TouchableOpacity>
 
         <TouchableOpacity 
           onPress={() => navigate('PostDetail', {post: member})}
@@ -167,7 +172,7 @@ const styles = StyleSheet.create({
   },
 
   createPostContainer: {
-    
+    marginRight: 10,
   },
 
   timeAndButtonContainer: {
