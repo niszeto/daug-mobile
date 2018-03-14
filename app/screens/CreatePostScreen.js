@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
-import { Button, Input } from 'react-native-elements';
+import { SimpleLineIcons } from '@expo/vector-icons';
+import { Button, Input, Header, Icon } from 'react-native-elements';
 
 export default class App extends React.Component {
 
@@ -13,7 +14,7 @@ export default class App extends React.Component {
     };
   }
 
-  async createPost() {
+  createPost = async() => {
     // this.setState({ isLoading: true })
 
     const { description } = this.state
@@ -81,40 +82,55 @@ export default class App extends React.Component {
 
 
   render() {
+    const {description} = this.state;
+
     return (
       <View style={styles.mainContainer}>
         <View style={styles.profileInformationContainer}>
-          <TouchableOpacity>
-            <View style={styles.headerContainer}>
-              <Image
-                source={{ uri: 'https://vignette.wikia.nocookie.net/en.futurama/images/1/13/Planet_express.png/revision/latest?cb=20130716185556' }}
-                style={{
-                  borderRadius: 25,
-                  width: 50,
-                  height: 50,
-                  margin: 10,
-                }}
-              />
-                <View style={styles.nameAndLocationContainer}>
-                  <Text>Alphonse Elric</Text>
-                  <Text>Location</Text>
-                </View>
-            </View>
-          </TouchableOpacity>
-          <View style={styles.descriptionContainer}>
-
-          </View>
-          <Text>What's on your mind</Text>
-          <Input
-            onChangeText={description => this.setState({ description })}
-          >
-          </Input>
-          <Button
-            onPress={this.createPost.bind(this)}
-          >
-          </Button>
-
           
+          <View style={styles.headerContainer}>
+            <Image
+              source={{ uri: 'https://vignette.wikia.nocookie.net/en.futurama/images/1/13/Planet_express.png/revision/latest?cb=20130716185556' }}
+              style={{
+                borderRadius: 25,
+                width: 50,
+                height: 50,
+                margin: 10,
+              }}
+            />
+            <View style={styles.nameAndLocationContainer}>
+              <Text>Alphonse Elric</Text>
+              <TouchableOpacity style={styles.locationContainer}>
+                <SimpleLineIcons
+                  name='location-pin'
+                  style={styles.locationIcon}
+                  size={15}
+                />
+                <Text>Location</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+          
+          <View style={styles.descriptionContainer}>
+            {/* <Text>What's on your mind</Text> */}
+            <Input
+              value={description}
+              onChangeText={description => this.setState({ description })}
+              placeholder="What's on your mind?"
+              placeholderTextColor="gray"
+              autoCapitalize="none"
+              keyboardType="default"
+              displayError={false}
+              containerStyle={styles.textContainerStyle}
+              inputStyle={styles.textInputStyle}
+            >
+            </Input>
+            <Button
+              onPress={this.createPost}
+            >
+            </Button>
+          </View>
+        
         </View>
 
         <View style={styles.commentContainer}>
@@ -135,6 +151,7 @@ const styles = StyleSheet.create({
   profileInformationContainer:{
     flex: 1,
     // backgroundColor: 'yellow',
+    justifyContent: 'center',
   },
 
   headerContainer: {
@@ -145,8 +162,19 @@ const styles = StyleSheet.create({
     // backgroundColor: 'red',
   },
 
-  descriptionContainer: {
+  nameAndLocationContainer: {
 
+  },
+
+  locationContainer: {
+    flexDirection: 'row'
+  },
+
+  descriptionContainer: {
+    flex: 1,
+    width: '100%',
+    // justifyContent: 'center',
+    alignItems: 'center',
   },
   
   commentContainer: {
@@ -154,5 +182,16 @@ const styles = StyleSheet.create({
 
     // backgroundColor: 'blue',
   },
+
+  textContainerStyle: {
+    marginTop: 30,
+    marginBottom: 10,
+    width: '100%',
+  },
+
+  textInputStyle: {
+    color: 'black',
+    width: '100%',
+  }
 
 });

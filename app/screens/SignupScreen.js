@@ -43,7 +43,7 @@ export default class App extends React.Component {
 
   }
 
-  async signupButtonPressed() {
+    signupButtonPressed = async () => {
     // this.setState({ isLoading: true })
 
     const { name, email, password } = this.state
@@ -202,9 +202,9 @@ export default class App extends React.Component {
         <Button
           style={styles.buttonContainer}
           text='Sign Up'
-          buttonStyle={[styles.buttonStyle, !this.isCredentialsEmpty() && { backgroundColor: 'grey' }]} //look at this later
+          buttonStyle={[styles.buttonStyle, !this.isCredentialsEmpty() && { backgroundColor: 'grey' }]} 
           disabled={!this.isCredentialsEmpty()}
-          onPress={this.signupButtonPressed.bind(this)}
+          onPress={this.signupButtonPressed}
           textStyle={styles.buttonTextStyle}
         />
 
