@@ -8,13 +8,6 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export default class App extends React.Component {
 
-  // static navigationOptions = {
-  //   title: 'Edit Profile',
-  //   headerStyle: { backgroundColor: '#2F80ED', borderBottomWidth: 0, },
-  //   headerTintColor: 'white',
-  //   headerTitleStyle: { color: 'white', fontSize: 20 }
-  // };
-
   constructor(props){
     super(props);
 
@@ -30,10 +23,33 @@ export default class App extends React.Component {
 
     return (
       <View style={styles.modalContainer}>
-        
+        <Header
+          leftComponent={
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()} style={styles.mainContentContainer}>
+              <View style={styles.headerLeftAndRightComponentContainer}>
+                <Text style={styles.headerLeftAndRightComponentTextStyle}>Cancel</Text>
+              </View>
+            </TouchableOpacity>
+          }
 
-        <View style={styles.mainContainer}>
-          <View style={styles.headerContainer}>
+          centerComponent={
+            {
+              text: 'Edit Profile',
+              style: styles.headerCenterComponentStyle
+            }
+          }
+
+          rightComponent={
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()} style={{ flex:1 }}>
+              <View style={styles.headerLeftAndRightComponentContainer}>
+                <Text style={styles.headerLeftAndRightComponentTextStyle}>Done</Text>
+              </View>
+            </TouchableOpacity>
+          }
+        />
+
+        <View style={styles.mainContentContainer}>
+          <View style={styles.avatarContainer}>
             <Image
                   source={{ uri: 'https://static.pexels.com/photos/36347/cow-pasture-animal-almabtrieb.jpg' }}
                   style={{
@@ -41,6 +57,7 @@ export default class App extends React.Component {
                     width: 150,
                     height: 150,
                   }}
+                  resizeMode='cover'
                 />
             <TouchableOpacity>
               <Text style={styles.changePhotoText}>Change Photo</Text>
@@ -118,15 +135,28 @@ const styles = StyleSheet.create({
   modalContainer: {
     flex: 1,
   },
+  
+  headerLeftAndRightComponentContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
 
+  headerLeftAndRightComponentTextStyle: {
+    fontSize: 15, 
+    color: 'black'
+  },
 
+  headerCenterComponentStyle: {
+    fontSize: 20,
+    color:'white'
+  },
 
-
-  mainContainer: {
+  mainContentContainer: {
     flex: 1,
   },
 
-  headerContainer: {
+  avatarContainer: {
     width: '100%',
     height: '40%',
     justifyContent: 'center',
