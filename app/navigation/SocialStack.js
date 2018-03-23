@@ -13,7 +13,7 @@ const SocialStack = StackNavigator({
   },
   Profile: {
     screen: ProfileScreen
-}
+  }
 });
 
 export default SocialStack;

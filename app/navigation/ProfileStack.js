@@ -2,10 +2,8 @@ import { StackNavigator } from 'react-navigation';
 
 import ProfilePage from '../screens/ProfileScreen';
 import PostDetails from '../screens/PostDetailScreen';
-import EditProfile from '../screens/EditProfileScreen';
-import IntroStack from './IntroStack'
 
-export default StackNavigator({
+const ProfileStack = StackNavigator({
   Profile: {
     screen: ProfilePage
   },
@@ -13,9 +11,6 @@ export default StackNavigator({
   Post: {
     screen: PostDetails
   },
-}, {
-  initialRouteName: 'Profile',
-  mode: 'modal',
-  headerMode: 'none'
-}
-);
+});
+
+export default ProfileStack;

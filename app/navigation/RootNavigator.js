@@ -3,7 +3,7 @@ import { StackNavigator } from 'react-navigation';
 import IntroStack from './IntroStack';
 import HomeTabs from './HomeTabs';
 
-export default StackNavigator({
+const RootNavigator = StackNavigator({
   Intro: {
     screen: IntroStack
   },
@@ -16,4 +16,6 @@ export default StackNavigator({
     initialRouteName: 'Home',
     mode: 'modal',
     headerMode: 'none'
-  });
+});
+
+export default RootNavigator;

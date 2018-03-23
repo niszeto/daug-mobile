@@ -2,11 +2,8 @@ import React from 'react';
 import { Platform } from 'react-native';
 
 import { TabNavigator } from 'react-navigation';
-import { SimpleLineIcons, Entypo } from '@expo/vector-icons';
+import { SimpleLineIcons } from '@expo/vector-icons';
 
-// import SocialFeedScreen from '../screens/SocialFeedScreen';
-// import ProfileScreen from '../screens/ProfileScreen';
-// import ProfileStack from './ProfileStack';
 import ProfileNavigator from './ProfileNavigator';
 import SocialNavigator from './SocialNavigator';
 
