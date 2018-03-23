@@ -25,6 +25,45 @@ export default class App extends React.Component {
     };
   }
 
+  displayComment(comment,index){
+    return(
+      <View style={styles.individualCommentContainer} key={index}>
+        <TouchableOpacity>
+          <Image
+            source={{ uri: comment.user.image }}
+            style={{
+              borderRadius: 25,
+              width: 50,
+              height: 50,
+              margin: 10,
+            }}
+          />
+        </TouchableOpacity>
+        
+        <View style={styles.nameAndCommentContainer}>
+          <TouchableOpacity>
+            <Text>{comment.user.name}</Text>
+          </TouchableOpacity>
+          <Text>{comment.content}</Text>
+        </View>
+      </View>
+    )
+  }
+
+  renderComments(){
+    const { comments } = this.state.member;
+
+    return (
+      <View style={styles.commentsContainer}>
+        {
+          comments.map((comment, index) => {
+            return this.displayComment(comment, index);
+          })
+        }
+      </View>
+    )
+  }
+
   render() {
     const { navigate } = this.props.navigation;
     const { member, isCommented, isLiked } = this.state;
@@ -32,12 +71,12 @@ export default class App extends React.Component {
     const Component = member.comments ? ScrollView : View
 
     return (
-      <View style={styles.mainContainer}>
+      <Component style={styles.mainContainer}>
         <View style={styles.profileInformationContainer} key={member}>
           <TouchableOpacity
             onPress={() => navigate('Profile', { isHeaderShow: true, user: member.user })}
           >
-            <View style={styles.headerContainer}>
+            <View style={styles.individualCommentContainer}>
               <Image
                 source={{ uri: member.user.image }}
                 style={{
@@ -85,46 +124,11 @@ export default class App extends React.Component {
           </View>
         </View>
 
-        <View style={styles.commentContainer}>
+        <View style={styles.commentsMainContainer}>
           <Text>{member.comments ? member.comments.length : 'NO'} COMMENTS</Text>
-
-          <View style={styles.headerContainer}>
-            <Image
-              source={{ uri: 'https://pbs.twimg.com/profile_images/741947087978434560/6NpW135K_400x400.jpg' }}
-              style={{
-                borderRadius: 25,
-                width: 50,
-                height: 50,
-                margin: 10,
-              }}
-            />
-            <View style={styles.nameAndCommentContainer}>
-              <Text>Philip J. Fry</Text>
-              <Text>Hey, what smells like blue?</Text>
-            </View>
-            
-          </View>
-
-
-                    <View style={styles.headerContainer}>
-            <Image
-              source={{ uri: 'https://res.cloudinary.com/teepublic/image/private/s--vxtKJItA--/t_Preview/b_rgb:191919,c_limit,f_jpg,h_630,q_90,w_630/v1478190929/production/designs/769348_1.jpg' }}
-              style={{
-                borderRadius: 25,
-                width: 50,
-                height: 50,
-                margin: 10,
-              }}
-            />
-            <View style={styles.nameAndCommentContainer}>
-              <Text>Rick Sanchez</Text>
-              <Text>Wubbalubbadubdub!</Text>
-            </View>
-            
-          </View>
-
+          {member.comments && this.renderComments()}
         </View>
-      </View>
+      </Component>
     );
   }
 }
@@ -140,7 +144,7 @@ const styles = StyleSheet.create({
     flex: 3,
   },
 
-  headerContainer: {
+  individualCommentContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
@@ -174,9 +178,13 @@ const styles = StyleSheet.create({
     padding: 20,
   },
 
-  commentContainer: {
+  commentsMainContainer: {
     flex: 2,
     marginTop: 30,
   },
+
+  commentsContainer: {
+    backgroundColor: 'white',
+  }
 
 });
