@@ -40,12 +40,14 @@ export default class App extends React.Component {
           }
 
           rightComponent={
-            <TouchableOpacity onPress={() => this.props.navigation.goBack()} style={{ flex:1 }}>
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()} style={styles.mainContentContainer}>
               <View style={styles.headerLeftAndRightComponentContainer}>
                 <Text style={styles.headerLeftAndRightComponentTextStyle}>Done</Text>
               </View>
             </TouchableOpacity>
           }
+          innerContainerStyles={styles.headerInnerContainer}
+          outerContainerStyles={styles.headerOuterContainer}
         />
 
         <View style={styles.mainContentContainer}>
@@ -134,6 +136,15 @@ const styles = StyleSheet.create({
 
   modalContainer: {
     flex: 1,
+  },
+
+  headerInnerContainer: {
+    alignItems: 'center',
+    paddingTop: 30
+  },
+
+  headerOuterContainer: {
+    height: 90
   },
   
   headerLeftAndRightComponentContainer: {

@@ -137,6 +137,11 @@ export default class App extends React.Component {
             <TouchableOpacity
               onPress={ () => navigate('CreatePost', {member : SOCIAL_FEED_MOCK_DATA[0] })}
             >
+            
+            {/* <TouchableOpacity
+              onPress={() => navigate('Profile',{isHeaderShowing: true, user: member.user})}
+            > */}
+
               <SimpleLineIcons
                 style={styles.icon}
                 name={"plus"}

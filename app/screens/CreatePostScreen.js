@@ -8,9 +8,11 @@ export default class App extends React.Component {
   constructor(props){
     super(props);
 
+    const { member } = props.navigation.state.params;
+
     this.state = {
-      screen: null,
-      description: ''
+      description: '' ,
+      member
     };
   }
 
@@ -82,13 +84,41 @@ export default class App extends React.Component {
 
 
   render() {
-    const {description} = this.state;
+    const { navigate } = this.props.navigation;
+    const { member, description } = this.state;
 
     return (
       <View style={styles.mainContainer}>
+        <Header
+          leftComponent={
+            <TouchableOpacity onPress={() => this.props.navigation.goBack()} style={styles.mainContentContainer}>
+              <View style={styles.headerLeftAndRightComponentContainer}>
+                <Text style={styles.headerLeftAndRightComponentTextStyle}>Cancel</Text>
+              </View>
+            </TouchableOpacity>
+          }
+
+          centerComponent={
+            {
+              text: 'Create Post',
+              style: styles.headerCenterComponentStyle
+            }
+          }
+
+          rightComponent={
+            <TouchableOpacity onPress={this.createPost} style={styles.mainContentContainer}>
+              <View style={styles.headerLeftAndRightComponentContainer}>
+                <Text style={styles.headerLeftAndRightComponentTextStyle}>Share</Text>
+              </View>
+            </TouchableOpacity>
+          }
+          innerContainerStyles={styles.headerInnerContainer}
+          outerContainerStyles={styles.headerOuterContainer}
+        />        
+
         <View style={styles.profileInformationContainer}>
           
-          <View style={styles.headerContainer}>
+          <View style={styles.avatarNameLocationContainer}>
             <Image
               source={{ uri: 'https://vignette.wikia.nocookie.net/en.futurama/images/1/13/Planet_express.png/revision/latest?cb=20130716185556' }}
               style={{
@@ -125,12 +155,9 @@ export default class App extends React.Component {
               inputStyle={styles.textInputStyle}
             >
             </Input>
-            <Button
-              onPress={this.createPost}
-            >
-            </Button>
+
           </View>
-        
+
         </View>
 
         <View style={styles.commentContainer}>
@@ -145,16 +172,39 @@ const styles = StyleSheet.create({
 
   mainContainer: {
     flex: 1,
-    marginTop: 20,
+  },
+
+  headerInnerContainer: {
+    alignItems: 'center',
+    paddingTop: 30
+  },
+
+  headerOuterContainer: {
+    height: 90
+  },
+
+  headerLeftAndRightComponentContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+
+  headerLeftAndRightComponentTextStyle: {
+    fontSize: 15, 
+    color: 'black'
+  },
+
+  headerCenterComponentStyle: {
+    fontSize: 20,
+    color:'white'
   },
 
   profileInformationContainer:{
     flex: 1,
-    // backgroundColor: 'yellow',
     justifyContent: 'center',
   },
 
-  headerContainer: {
+  avatarNameLocationContainer: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
@@ -167,7 +217,12 @@ const styles = StyleSheet.create({
   },
 
   locationContainer: {
-    flexDirection: 'row'
+    flexDirection: 'row',
+    marginTop: 5,
+  },
+
+  locationIcon: {
+    marginRight: 5,
   },
 
   descriptionContainer: {
