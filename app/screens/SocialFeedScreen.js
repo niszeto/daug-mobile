@@ -53,7 +53,7 @@ export default class App extends React.Component {
                 <TouchableOpacity
                   onPress={() => navigate('Profile',{isHeaderShowing: true, user: member.user})}
                 >
-                  <Text>{member.user.name}</Text>
+                  <Text style={styles.memberNameText}>{member.user.name}</Text>
                 </TouchableOpacity>
                 
                 <Text>{member.location}</Text>
@@ -192,6 +192,10 @@ const styles = StyleSheet.create({
 
   nameAndLocationContainer: {
     padding: 10,
+  },
+
+  memberNameText: {
+    color: '#28ABEC'
   },
 
   createPostContainer: {
