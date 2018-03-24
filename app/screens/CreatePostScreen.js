@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { Button, Input, Header, Icon } from 'react-native-elements';
 
@@ -120,7 +120,7 @@ export default class App extends React.Component {
           
           <View style={styles.avatarNameLocationContainer}>
             <Image
-              source={{ uri: 'https://vignette.wikia.nocookie.net/en.futurama/images/1/13/Planet_express.png/revision/latest?cb=20130716185556' }}
+              source={{ uri: member.user.image }}
               style={{
                 borderRadius: 25,
                 width: 50,
@@ -129,40 +129,33 @@ export default class App extends React.Component {
               }}
             />
             <View style={styles.nameAndLocationContainer}>
-              <Text>Alphonse Elric</Text>
+              <Text>{member.user.name}</Text>
               <TouchableOpacity style={styles.locationContainer}>
                 <SimpleLineIcons
                   name='location-pin'
                   style={styles.locationIcon}
                   size={15}
                 />
-                <Text>Location</Text>
+                <Text>Add Location</Text>
               </TouchableOpacity>
             </View>
           </View>
           
           <View style={styles.descriptionContainer}>
-            {/* <Text>What's on your mind</Text> */}
-            <Input
+            <TextInput
               value={description}
-              onChangeText={description => this.setState({ description })}
-              placeholder="What's on your mind?"
+              onChangeText={(description) => this.setState({ description })}
+              placeholder="What would you like to share?"
               placeholderTextColor="gray"
-              autoCapitalize="none"
-              keyboardType="default"
-              displayError={false}
-              containerStyle={styles.textContainerStyle}
-              inputStyle={styles.textInputStyle}
+              multiline={true}
+              style={styles.description}
             >
-            </Input>
+            </TextInput>
 
           </View>
 
         </View>
 
-        <View style={styles.commentContainer}>
-
-        </View>
       </View>
     );
   }
@@ -208,8 +201,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-
-    // backgroundColor: 'red',
   },
 
   nameAndLocationContainer: {
@@ -228,25 +219,16 @@ const styles = StyleSheet.create({
   descriptionContainer: {
     flex: 1,
     width: '100%',
-    // justifyContent: 'center',
     alignItems: 'center',
   },
   
-  commentContainer: {
-    flex: 1,
-
-    // backgroundColor: 'blue',
-  },
-
-  textContainerStyle: {
-    marginTop: 30,
-    marginBottom: 10,
+  description: {
+    height: 250,
     width: '100%',
-  },
-
-  textInputStyle: {
+    fontSize: 25,
     color: 'black',
-    width: '100%',
+    paddingLeft: 10,
+    paddingRight: 10,
   }
 
 });
