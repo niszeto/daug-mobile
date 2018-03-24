@@ -12,9 +12,9 @@ export default class App extends React.Component {
     super(props);
 
     this.state = {
-      name: '',
-      bio: '',
-      email: '',
+      name: 'Charlie',
+      bio: "The world's most friendly cow!",
+      email: 'clucky@gmail.com',
     };
   }
 

@@ -13,7 +13,7 @@ const RootNavigator = StackNavigator({
   },
 
 }, {
-    initialRouteName: 'Home',
+    initialRouteName: 'Intro',
     mode: 'modal',
     headerMode: 'none'
 });
