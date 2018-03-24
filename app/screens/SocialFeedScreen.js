@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, FlatList, Image, TouchableOpacity } from 'react-native';
 import { SOCIAL_FEED_MOCK_DATA } from '../constants';
-import { FontAwesome, SimpleLineIcons, Ionicons } from '@expo/vector-icons';
+import { SimpleLineIcons, Ionicons } from '@expo/vector-icons';
 import { Button, Input } from 'react-native-elements';
 
 export default class App extends React.Component {
@@ -125,15 +125,28 @@ export default class App extends React.Component {
             <Text style={styles.createPostLabelStyle}>CreatePost</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={ () => navigate('CreatePost', {member : SOCIAL_FEED_MOCK_DATA[0] })}
-          >
-            <Ionicons
-              style={styles.icon}
-              name={"ios-add-circle-outline"}
-              size={30}
-            />
-          </TouchableOpacity>
+          <View style={styles.createPostButtonContainer}>
+            <TouchableOpacity>
+              <SimpleLineIcons
+                style={styles.icon}
+                name={"picture"}
+                size={25}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={ () => navigate('CreatePost', {member : SOCIAL_FEED_MOCK_DATA[0] })}
+            >
+              <SimpleLineIcons
+                style={styles.icon}
+                name={"plus"}
+                size={25}
+              />
+            </TouchableOpacity>
+
+            
+          </View>
+        
         </View>
 
         <ScrollView>
@@ -182,6 +195,7 @@ const styles = StyleSheet.create({
   },
 
   createPostContainer: {
+    height: 40,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
@@ -194,6 +208,10 @@ const styles = StyleSheet.create({
   createPostLabelStyle: {
     marginLeft: 10,
     fontSize: 20,
+  },
+
+  createPostButtonContainer: {
+    flexDirection: 'row',
   },
 
   timeAndButtonContainer: {
