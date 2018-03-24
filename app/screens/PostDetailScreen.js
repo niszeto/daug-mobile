@@ -74,19 +74,22 @@ export default class App extends React.Component {
       <Component style={styles.mainContainer}>
         <View style={styles.profileInformationContainer} key={member}>
 
-          <TouchableOpacity
-            onPress={() => navigate('Profile', { isHeaderShow: true, user: member.user })}
-          >
+          
             <View style={styles.individualCommentContainer}>
-              <Image
-                source={{ uri: member.user.image }}
-                style={{
-                  borderRadius: 25,
-                  width: 50,
-                  height: 50,
-                  margin: 10,
-                }}
-              />
+              <TouchableOpacity
+              onPress={() => navigate('Profile', { isHeaderShow: true, user: member.user })}
+              >
+                <Image
+                  source={{ uri: member.user.image }}
+                  style={{
+                    borderRadius: 25,
+                    width: 50,
+                    height: 50,
+                    margin: 10,
+                  }}
+                />
+              </TouchableOpacity>
+
               <View style={styles.nameAndLocationContainer}>
                 <TouchableOpacity
                   onPress={() => navigate('Profile', { isHeaderShow: true, user: member.user })}
@@ -96,7 +99,6 @@ export default class App extends React.Component {
                 <Text>{member.location}</Text>
               </View>
             </View>
-          </TouchableOpacity>
 
           <Image
             source={{ uri: member.user.image }}

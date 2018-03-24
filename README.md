@@ -55,7 +55,7 @@ Social Feed screen is based on **Facebook**.
 
 Demo
 
-![](DaugAppDemo.gif)
+![](AssignmentOne.gif)
 
 ## Assignment #2
 

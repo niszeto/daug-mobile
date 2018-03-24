@@ -59,18 +59,6 @@ export default class App extends React.Component {
                 <Text>{member.location}</Text>
               </View>
             </View>
-
-            <View style={styles.createPostContainer}>
-              <TouchableOpacity
-                onPress={ () => navigate('CreatePost')}
-              >
-                <Ionicons
-                  style={styles.icon}
-                  name={"ios-add-circle-outline"}
-                  size={30}
-                />
-              </TouchableOpacity>
-            </View>
           </View>
 
         <TouchableOpacity 
@@ -128,18 +116,39 @@ export default class App extends React.Component {
     const {navigate} = this.props.navigation;
 
     return (
-      <ScrollView style={styles.mainContainer}>
+      <View style={styles.mainContainer}>
 
-        <FlatList
-          data={SOCIAL_FEED_MOCK_DATA}
-          style={styles.mainContainer}
-          extraData={this.state}
-          keyExtractor={(item, index) => index}
-          renderItem={({ item }) => this.renderMemberPost(item)}
+        <View style={styles.createPostContainer}>
+        <TouchableOpacity
+            onPress={ () => navigate('CreatePost', {member : SOCIAL_FEED_MOCK_DATA[0] })}
+          >
+            <Text style={styles.createPostLabelStyle}>CreatePost</Text>
+          </TouchableOpacity>
 
-        />
+          <TouchableOpacity
+            onPress={ () => navigate('CreatePost', {member : SOCIAL_FEED_MOCK_DATA[0] })}
+          >
+            <Ionicons
+              style={styles.icon}
+              name={"ios-add-circle-outline"}
+              size={30}
+            />
+          </TouchableOpacity>
+        </View>
 
-      </ScrollView>
+        <ScrollView>
+
+          <FlatList
+            data={SOCIAL_FEED_MOCK_DATA}
+            style={styles.mainContainer}
+            extraData={this.state}
+            keyExtractor={(item, index) => index}
+            renderItem={({ item }) => this.renderMemberPost(item)}
+          />
+
+        </ScrollView>
+
+      </View>
     );
   }
 }
@@ -148,6 +157,7 @@ const styles = StyleSheet.create({
 
   mainContainer: {
     flexGrow: 1,
+    marginBottom: 20,
   },
 
   itemContainer: {
@@ -172,7 +182,18 @@ const styles = StyleSheet.create({
   },
 
   createPostContainer: {
-    marginRight: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  
+  createPostLabelContainer: {
+    
+  },
+
+  createPostLabelStyle: {
+    marginLeft: 10,
+    fontSize: 20,
   },
 
   timeAndButtonContainer: {
