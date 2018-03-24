@@ -25,7 +25,7 @@ export default class App extends React.Component {
     };
   }
 
-  displayComment(comment,index){
+  displayComment = (comment,index) =>{
     return(
       <View style={styles.individualCommentContainer} key={index}>
         <TouchableOpacity>
@@ -50,7 +50,7 @@ export default class App extends React.Component {
     )
   }
 
-  renderComments(){
+  renderComments = () => {
     const { comments } = this.state.member;
 
     return (
@@ -73,6 +73,7 @@ export default class App extends React.Component {
     return (
       <Component style={styles.mainContainer}>
         <View style={styles.profileInformationContainer} key={member}>
+
           <TouchableOpacity
             onPress={() => navigate('Profile', { isHeaderShow: true, user: member.user })}
           >
@@ -87,7 +88,11 @@ export default class App extends React.Component {
                 }}
               />
               <View style={styles.nameAndLocationContainer}>
-                <Text>{member.user.name}</Text>
+                <TouchableOpacity
+                  onPress={() => navigate('Profile', { isHeaderShow: true, user: member.user })}
+                >
+                  <Text>{member.user.name}</Text>
+                </TouchableOpacity>
                 <Text>{member.location}</Text>
               </View>
             </View>
@@ -97,7 +102,7 @@ export default class App extends React.Component {
             source={{ uri: member.user.image }}
             style={{
               width: '100%',
-              height: '50%',
+              height: 300,
             }}
             cover={true}
           />
@@ -124,10 +129,9 @@ export default class App extends React.Component {
           </View>
         </View>
 
-        <View style={styles.commentsMainContainer}>
-          <Text>{member.comments ? member.comments.length : 'NO'} COMMENTS</Text>
-          {member.comments && this.renderComments()}
-        </View>
+        <Text>{member.comments ? member.comments.length : 'NO'} COMMENTS</Text>
+        {member.comments && this.renderComments()}
+        
       </Component>
     );
   }
@@ -137,22 +141,34 @@ const styles = StyleSheet.create({
 
   mainContainer: {
     flex: 1,
-    marginTop: 20,
   },
 
   profileInformationContainer:{
-    flex: 3,
+    backgroundColor: 'white',
+    borderColor: '#aaaaaa'
+
   },
 
-  individualCommentContainer: {
+  postHeaderContainer: {
+    height: 60,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
+    borderBottomWidth: 0.5,
+  },
+
+  individualCommentContainer: {
+    height: 60,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    borderBottomWidth: 0.5,
+    borderColor: 'rgba(244,244,244,1)',
   },
 
   timeAndButtonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
 
   buttonContainer: {
@@ -176,11 +192,6 @@ const styles = StyleSheet.create({
 
   date: {
     padding: 20,
-  },
-
-  commentsMainContainer: {
-    flex: 2,
-    marginTop: 30,
   },
 
   commentsContainer: {
