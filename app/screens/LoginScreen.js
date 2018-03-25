@@ -25,38 +25,71 @@ export default class App extends React.Component {
     }
   }
 
-  buttonPressed = () => {
-    const { email, password } = this.state;
+  loginButtonPressed = async () => {
+    // this.setState({ isLoading: true })
 
-    if(email === EMAIL && password === PASSWORD){
-      this.correctAlert();
-    }else{
-      this.incorrectAlert();
+    const { email, password } = this.state
+    const { navigate } = this.props.navigation
+
+    var details = {
+      'email': email,
+      'password': password
+    };
+
+    var formBody = [];
+
+    for (var property in details) {
+      var encodedKey = encodeURIComponent(property);
+      var encodedValue = encodeURIComponent(details[property]);
+
+      formBody.push(encodedKey + "=" + encodedValue);
     }
-  }
 
-  correctAlert = () => {
-    const { email, password } = this.state;
+    formBody = formBody.join("&");
 
-    Alert.alert(
-      'Success',
-      `Email: ${email} Password: ${password}`,
-      [
-        { text: 'OK', onPress: () => this.props.navigation.navigate('Home') }
-      ],
-      { cancelable: false }
-    )
-  }
+    try {
+      let response = await fetch(`https://daug-app.herokuapp.com/auth/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        },
+        body: formBody
+      });
 
-  incorrectAlert = () => {
-    Alert.alert(
-      'Incorrect',
-      `The email is: ${EMAIL} and the password is: ${PASSWORD}`,
-      [
-        { text: 'Try again', onPress: () => console.log('Try again pressed') }
-      ],
-      { cancelable: false }
-    )
+      let responseJSON = null
+
+      if (response.status === 201) {
+        responseJSON = await response.json();
+
+        console.log(responseJSON)
+
+        // this.setState({ isLoading: false })
+        Alert.alert(
+          'Logged in!',
+          'You have successfully Logged in!',
+          [
+            { text: "Continue", onPress: () => navigate("Home") }
+          ],
+          { cancelable: false }
+        )
+      } else {
+        responseJSON = await response.json();
+        const error = responseJSON.message
+
+        console.log(responseJSON)
+
+        // this.setState({ isLoading: false, errors: responseJSON.errors })
+        this.setState({ errors: responseJSON.errors })
+
+        Alert.alert('Login failed!', `Unable to login.. ${error}!`)
+      }
+    } catch (error) {
+      this.setState({ isLoading: false, response: error })
+
+      console.log(error)
+
+      Alert.alert('Login failed!', 'Unable to Login. Please try again later')
+    }
   }
 
   isCredentialsEmpty() {
@@ -64,7 +97,6 @@ export default class App extends React.Component {
 
     return email.length > 0 && password.length > 0;
   }
-
 
   render() {
     const { email, password } = this.state;
@@ -130,7 +162,7 @@ export default class App extends React.Component {
           text='Login'
           buttonStyle={[styles.buttonStyle, !this.isCredentialsEmpty() && { backgroundColor: 'grey' }]}
           disabled={!this.isCredentialsEmpty()}
-          onPress={this.buttonPressed}
+          onPress={this.loginButtonPressed}
           textStyle={styles.buttonTextStyle}
         />
 
