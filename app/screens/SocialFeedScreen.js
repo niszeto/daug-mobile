@@ -1,8 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, FlatList, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, FlatList, Image, TouchableOpacity, ActivityIndicator, DeviceEventEmitter } from 'react-native';
 import { SOCIAL_FEED_MOCK_DATA } from '../constants';
 import { SimpleLineIcons, Ionicons } from '@expo/vector-icons';
 import { Button, Input } from 'react-native-elements';
+import { getUserID, timeSince } from '../utilities/helpers';
 
 export default class App extends React.Component {
 
@@ -18,15 +19,98 @@ export default class App extends React.Component {
     super(props);
 
     this.state = {
+      isLoading: false,
       isCommented: false,
       isLiked: false,
+      posts: null,
     };
+  }
+
+  async componentDidMount() {
+    this.fetchPosts();
+
+    getUserID()
+      .then( (response) => {
+        this.setState({userID: response});
+        this.fetchUser();
+      })
+        .catch( (error) => {
+          alert("An Error Occured!")
+        });
+  }
+
+  componentWillMount() {
+    DeviceEventEmitter.addListener( 'new_post_created', (event) => {
+      this.fetchPosts();
+    });
+  }
+
+  async fetchPosts() {
+    this.setState({ isLoading: true });
+
+    try{
+      const response = await fetch(`https://daug-app.herokuapp.com/api/feed`, {
+        method: 'GET'
+      });
+
+      const responseJSON = await response.json();
+
+      if(response.status === 200){
+        console.log(responseJSON);
+
+        this.setState({
+          posts: responseJSON, 
+          isLoading: false 
+        });
+
+      } else {
+        const error = responseJSON.message;
+
+        console.log("failed" + error);
+      }
+
+    } catch(error) {
+      console.log("failed" + error);
+    }
+  }
+
+  async fetchUser() {
+
+    this.setState({ isLoading: true });
+
+    try{
+      const response = await fetch(`https://daug-app.herokuapp.com/api/user/${this.state.userID}`, {
+        method: 'GET'
+      });
+
+      const responseJSON = null;
+
+      if(response.status === 200){
+        responseJSON = await response.json();
+
+        console.log(responseJSON);
+
+        this.setState({
+          posts: responseJSON, 
+          isLoading: false 
+        });
+
+      } else {
+        responseJSON = await response.json();
+        const error = responseJSON.message;
+
+        console.log("failed" + error);
+      }
+
+    } catch(error) {
+      console.log("failed" + error);
+    }
   }
 
   //render one post
   renderMemberPost = (member) => {
-    const {isCommented, isLiked} = this.state;
-    const {navigate} = this.props.navigation;
+    const { isCommented, isLiked } = this.state;
+    const { navigate } = this.props.navigation;
 
     return (
       <View style={styles.itemContainer} key={member}>
@@ -37,7 +121,7 @@ export default class App extends React.Component {
               onPress={() => navigate('Profile',{isHeaderShowing: true, user: member.user})}
             >
               <Image
-                source={{ uri: member.image }}
+                source={{ uri: member.user.profile_image || '' }}
                 style={{
                   borderRadius: 25,
                   width: 50,
@@ -49,7 +133,7 @@ export default class App extends React.Component {
             
               <View style={styles.nameAndLocationContainer}>
                 <TouchableOpacity
-                  onPress={() => navigate('Profile',{isHeaderShowing: true, user: member.user})}
+                  onPress={() => navigate('Profile', { isHeaderShowing: true, user: member.user})}
                 >
                   <Text style={styles.memberNameText}>{member.user.name}</Text>
                 </TouchableOpacity>
@@ -60,10 +144,10 @@ export default class App extends React.Component {
           </View>
 
         <TouchableOpacity 
-          onPress={() => navigate('PostDetail', {post: member})}
+          onPress={() => navigate('PostDetail', { post: member })}
         >
           <Image
-              source={{ uri: member.image }}
+              source={{ uri: member.image || '' }}
               style={{
                 width: '100%',
                 height: 300,
@@ -72,10 +156,10 @@ export default class App extends React.Component {
               cover={true}
           />
         </TouchableOpacity>
-        <Text style={styles.caption}>{member.caption}</Text>
+        <Text style={styles.caption}>{member.description}</Text>
 
         <View style={styles.timeAndButtonContainer}>
-          <Text style={styles.date}>{member.date}</Text>
+          <Text style={styles.date}>{timeSince(member.createdAt)}</Text>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               onPress={() => this.setState({isCommented: !isCommented})}
@@ -88,7 +172,7 @@ export default class App extends React.Component {
               />
             </TouchableOpacity>
 
-            <Text style={styles.iconNumbers}>{member.comments ? member.comments.length : 0}</Text>
+            <Text style={styles.iconNumbers}>{member.comments || 0}</Text>
 
             <TouchableOpacity
               onPress={() => this.setState({isLiked: !isLiked})}
@@ -101,7 +185,7 @@ export default class App extends React.Component {
               />
             </TouchableOpacity>
 
-            <Text style={styles.iconNumbers}>{member.likes}</Text>
+            <Text style={styles.iconNumbers}>{member.likes || 0}</Text>
 
           </View>
         </View>
@@ -110,15 +194,24 @@ export default class App extends React.Component {
     );
   }
 
+  loadingView(){
+    return (
+      <View style={styles.loadingView}>
+        <ActivityIndicator size="large" />
+      </View>
+    )
+  }
+
   render() {
-    const {navigate} = this.props.navigation;
+    const { navigate } = this.props.navigation;
+    const { isLoading, posts, user } = this.state;
 
     return (
       <View style={styles.mainContainer}>
 
         <View style={styles.createPostContainer}>
         <TouchableOpacity
-            onPress={ () => navigate('CreatePost', {member : SOCIAL_FEED_MOCK_DATA[0] })}
+            onPress={ () => navigate('CreatePost', {member: user })}
           >
             <Text style={styles.createPostLabelStyle}>CreatePost</Text>
           </TouchableOpacity>
@@ -133,7 +226,7 @@ export default class App extends React.Component {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={ () => navigate('CreatePost', {member : SOCIAL_FEED_MOCK_DATA[0] })}
+              onPress={ () => navigate('CreatePost', {member: user })}
             >
             
             {/* <TouchableOpacity
@@ -155,11 +248,13 @@ export default class App extends React.Component {
         <ScrollView>
 
           <FlatList
-            data={SOCIAL_FEED_MOCK_DATA}
-            style={styles.mainContainer}
-            extraData={this.state}
-            keyExtractor={(item, index) => index}
-            renderItem={({ item }) => this.renderMemberPost(item)}
+            data={ posts }
+            style={ styles.mainContainer }
+            extraData={ this.state }
+            keyExtractor={ (item, index) => index }
+            renderItem={ ({ item }) => this.renderMemberPost(item) }
+            onRefresh={ () => this.fetchPosts() }
+            refreshing={ isLoading }
           />
 
         </ScrollView>
@@ -174,6 +269,12 @@ const styles = StyleSheet.create({
   mainContainer: {
     flexGrow: 1,
     marginBottom: 20,
+  },
+
+  loadingView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   itemContainer: {
