@@ -44,18 +44,18 @@ export default class App extends React.Component {
         });
   }
 
-  async componentWillMount() {
+  componentWillMount() {
     DeviceEventEmitter.addListener('user_profile_updated', (event) => {
       this.fetchUser();
     });
   }
 
   async fetchUser() {
-    console.log('fetch users');
+    
     this.setState({ isLoading: true });
 
     try{
-      let response = await fetch(`https://daug-app.herokuapp.com/api/users/${this.state.userID}`, {
+      let response = await fetch(`https://daug-app.herokuapp.com/api/users/7`, {
         method: 'GET'
       });
 
