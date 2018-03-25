@@ -79,11 +79,11 @@ export default class App extends React.Component {
     this.setState({ isLoading: true });
 
     try{
-      const response = await fetch(`https://daug-app.herokuapp.com/api/user/${this.state.userID}`, {
+      const response = await fetch(`https://daug-app.herokuapp.com/api/users/${this.state.userID}`, {
         method: 'GET'
       });
 
-      const responseJSON = null;
+      let responseJSON = null;
 
       if(response.status === 200){
         responseJSON = await response.json();
@@ -91,7 +91,7 @@ export default class App extends React.Component {
         console.log(responseJSON);
 
         this.setState({
-          posts: responseJSON, 
+          user: responseJSON, 
           isLoading: false 
         });
 
@@ -205,13 +205,14 @@ export default class App extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     const { isLoading, posts, user } = this.state;
+    console.log(`member object is: ${user}`); 
 
     return (
       <View style={styles.mainContainer}>
 
         <View style={styles.createPostContainer}>
         <TouchableOpacity
-            onPress={ () => navigate('CreatePost', {member: user })}
+            onPress={ () => navigate('CreatePost', { member: user })}
           >
             <Text style={styles.createPostLabelStyle}>CreatePost</Text>
           </TouchableOpacity>
@@ -226,7 +227,7 @@ export default class App extends React.Component {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={ () => navigate('CreatePost', {member: user })}
+              onPress={ () => navigate('CreatePost', { member: user })}
             >
             
             {/* <TouchableOpacity

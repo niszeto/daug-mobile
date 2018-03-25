@@ -1,7 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Alert, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Alert, TextInput, DeviceEventEmitter } from 'react-native';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { Button, Input, Header, Icon } from 'react-native-elements';
+import { getUserID } from '../utilities/helpers';
 
 export default class App extends React.Component {
 
@@ -9,22 +10,40 @@ export default class App extends React.Component {
     super(props);
 
     const { member } = props.navigation.state.params;
+    console.log(member);
 
     this.state = {
+      isLoading: false,
       description: '' ,
-      member
+      member,
+      image: null
     };
   }
 
-  createPost = async() => {
-    // this.setState({ isLoading: true })
+  async componentDidMount() {
+    getUserID()
+      .then( (response) => this.setState({ userID: response } ))
+        .catch( (error) => { 
+          console.log(error); 
+          alert("An Error Occured!"); 
+        });
+  }
 
-    const { description } = this.state
+  createPost = async() => {
+    this.setState({ isLoading: true })
+
+    const { description, image } = this.state
     const { navigate } = this.props.navigation
 
-    var details = {
-      'description' : description
-    };
+    var details = {};
+
+    if(image !== null) {
+      details.image = image;
+    }
+
+    if(description !== null && description.length > 0) {
+      details.description = description;
+    }
 
     var formBody = [];
 
@@ -38,7 +57,7 @@ export default class App extends React.Component {
     formBody = formBody.join("&");
 
     try {
-      let response = await fetch(`https://daug-app.herokuapp.com/api/users/1/posts`, {
+      let response = await fetch(`https://daug-app.herokuapp.com/api/users/${this.state.userID}/posts`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
@@ -53,39 +72,42 @@ export default class App extends React.Component {
 
         console.log(responseJSON)
 
-        // this.setState({ isLoading: false })
+        this.setState({ isLoading: false })
+
         Alert.alert(
           'Post Created!',
           'You have successfully created a post!',
           [
-            { text: "Continue", onPress: () => navigate("Home") }
+            { text: "Dismiss", onPress: () => {
+              DeviceEventEmitter.emit('new_post_created', {});
+              this.props.navigation.goBack();
+            }}
           ],
           { cancelable: false }
         )
       } else {
         responseJSON = await response.json();
-        const error = responseJSON.message
+        const error = responseJSON.message;
 
-        console.log(responseJSON)
+        console.log(responseJSON);
 
-        // this.setState({ isLoading: false, errors: responseJSON.errors })
-        this.setState({ errors: responseJSON.errors })
+        this.setState({ isLoading: false, errors: responseJSON.errors });
 
-        Alert.alert('Post not created!', `Unable to create post.. ${error}!`)
+        Alert.alert('Post not created!', `Unable to create post.. ${error}!`);
       }
     } catch (error) {
-      this.setState({ isLoading: false, response: error })
+      this.setState({ isLoading: false, response: error });
 
-      console.log(error)
-
-      Alert.alert('Create post failed!', 'Unable to Create Post. Please try again later')
+      Alert.alert('Create post failed!', 'Unable to Create Post. Please try again later', `${error}`);
     }
   }
 
 
   render() {
     const { navigate } = this.props.navigation;
-    const { member, description } = this.state;
+    const { member, description, image } = this.state;
+    console.log('hello there');
+    console.log(member);
 
     return (
       <View style={styles.mainContainer}>
@@ -120,7 +142,7 @@ export default class App extends React.Component {
           
           <View style={styles.avatarNameLocationContainer}>
             <Image
-              source={{ uri: member.user.image }}
+              source={{ uri: member.profile_image || '' }}
               style={{
                 borderRadius: 25,
                 width: 50,
@@ -129,7 +151,7 @@ export default class App extends React.Component {
               }}
             />
             <View style={styles.nameAndLocationContainer}>
-              <Text>{member.user.name}</Text>
+              <Text>{member.name}</Text>
               <TouchableOpacity style={styles.locationContainer}>
                 <SimpleLineIcons
                   name='location-pin'

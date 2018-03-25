@@ -3,9 +3,7 @@ import { StyleSheet, View, Alert } from 'react-native';
 import { LinearGradient } from 'expo';
 import { Button, Input } from 'react-native-elements';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-
-const EMAIL = 'c';
-const PASSWORD = 'rn';
+import { onSignIn } from '../utilities/helpers';
 
 export default class App extends React.Component {
 
@@ -61,14 +59,14 @@ export default class App extends React.Component {
       if (response.status === 201) {
         responseJSON = await response.json();
 
-        console.log(responseJSON)
+        console.log(responseJSON);
 
         // this.setState({ isLoading: false })
         Alert.alert(
           'Logged in!',
           'You have successfully Logged in!',
           [
-            { text: "Continue", onPress: () => navigate("Home") }
+            { text: "Continue", onPress: () => onSignIn(responseJSON.user.id).then( () => navigate("Home"))}
           ],
           { cancelable: false }
         )
