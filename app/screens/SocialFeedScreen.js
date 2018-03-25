@@ -18,8 +18,6 @@ export default class App extends React.Component {
     super(props);
 
     this.state = {
-      screen: null,
-      fontLoaded: false,
       isCommented: false,
       isLiked: false,
     };

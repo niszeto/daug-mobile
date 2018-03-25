@@ -19,11 +19,11 @@ export default class App extends React.Component {
 
   }
 
-  async componentDidMount(){
+  componentDidMount = async () => {
     this.pingServer();
   }
 
-  async pingServer() {
+  pingServer = async () => {
     // Check server status
     // Simple GET request to /api
     try {
