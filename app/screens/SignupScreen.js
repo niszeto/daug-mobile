@@ -32,10 +32,9 @@ export default class App extends React.Component {
       'Success',
       `Name: ${name} Email: ${email} Password: ${password}`,
       [
-        { text: 'OK', 
-          onPress: () => {
-            this.props.navigation.navigate('Home');
-          }
+        {
+          text: 'OK', 
+          onPress: () => onSignIn(responseJSON.user.id).then( () => navigate("Home"))
         }
       ],
       { cancelable: false }

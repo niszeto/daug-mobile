@@ -1,10 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, DeviceEventEmitter, ActivityIndicator } from 'react-native';
 import { Button } from 'react-native-elements';
-
-import IntroScreen from './IntroScreen';
 import { SOCIAL_FEED_MOCK_DATA } from '../constants';
-import { ScrollView } from 'react-native-gesture-handler';
+import { getUserID, onSignOut } from '../utilities/helpers';
 
 export default class App extends React.Component {
 
@@ -24,16 +22,71 @@ export default class App extends React.Component {
     const user = props.navigation.state.params && props.navigation.state.params.user;
     const isHeaderShowing = props.navigation.state.params && props.navigation.state.params.isHeaderShowing;
 
+    console.log(`user constructor is ${user}`);
+
     this.state = {
-      user: user || SOCIAL_FEED_MOCK_DATA[0].user,
+      isLoading: false,
+      user: user || null,
       isHeaderShowing: isHeaderShowing || false
     }
 
   }
 
+  async componentDidMount() {
+    getUserID()
+      .then( (response) => {
+        console.log(`response is : ${response}`);
+        this.setState({ userID: response});
+        this.state.user === null && this.fetchUser();
+      })
+        .catch( (error) => {
+          alert("An error occured!");
+        });
+  }
+
+  async componentWillMount() {
+    DeviceEventEmitter.addListener('user_profile_updated', (event) => {
+      this.fetchUser();
+    });
+  }
+
+  async fetchUser() {
+    console.log('fetch users');
+    this.setState({ isLoading: true });
+
+    try{
+      let response = await fetch(`https://daug-app.herokuapp.com/api/users/${this.state.userID}`, {
+        method: 'GET'
+      });
+
+      let responseJSON = null;
+
+      if(response.status === 200){
+        responseJSON = await response.json();
+
+        console.log(responseJSON);
+
+        this.setState({
+          user: responseJSON, 
+          isLoading: false 
+        });
+
+      } else {
+        responseJSON = await response.json();
+        const error = responseJSON.message;
+
+        console.log("failed" + error);
+      }
+
+    } catch(error) {
+      console.log("failed" + error);
+    }
+  }
+
   render() {
-    const {navigate} = this.props.navigation;
-    const {user, isHeaderShowing} = this.state;
+    const { navigate } = this.props.navigation;
+    const { user, isHeaderShowing, isLoading } = this.state;
+    console.log(`user is : ${user}`);
 
     return (
       <ScrollView>
@@ -45,7 +98,7 @@ export default class App extends React.Component {
                 height: 175,
                 width: '100%'
               }}
-              source={{uri: user.banner}}
+              source={{ uri: user.banner || ''}}
               resizeMode='cover'
             />
           </View>
@@ -62,7 +115,7 @@ export default class App extends React.Component {
                       width: 100,
                       borderRadius: 50,
                     }}
-                    source={{ uri: user.image }}
+                    source={{ uri: user.profile_image || '' }}
                     resizeMode='cover'
                   />
                 </View>

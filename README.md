@@ -121,10 +121,10 @@ Demo
 	- [ ] :star: **Bonus:** Add UI validation to Login Screen - email (format) & password (min. 8 characters)
 - [x] Social Feed Screen - Make **`GET`** request to **`/api/feed/`** to get all posts for social feed
 	- [] :star: **Bonus:** Use `ActivityIndicator` to show placeholder loading when fetching feed data
-	- [] :star: **Bonus:** Use `DeviceEventEmitter` to trigger fetching posts when the `new_post_created` event is emitted
+	- [x] :star: **Bonus:** Use `DeviceEventEmitter` to trigger fetching posts when the `new_post_created` event is emitted
 	- [x] :star: **Bonus:** Use `timeSince()` utility function to show relative times for post creation
-- [] Create Post Screen - Make **`POST`** request to **`/api/users/:userId/posts`** to create a new post by the user
-	- [] :star: **Bonus:** Use `DeviceEventEmitter` to emit `new_post_created` event once post is created
+- [x] Create Post Screen - Make **`POST`** request to **`/api/users/:userId/posts`** to create a new post by the user
+	- [x] :star: **Bonus:** Use `DeviceEventEmitter` to emit `new_post_created` event once post is created
 - [] Profile Screen - Make **`GET`** request to **`/api/users/:userId`** to get all the profile data
 	- [] :star: **Bonus:** Use `ActivityIndicator` to show placeholder loading when fetching profile data
 	- [] :star: **Bonus:** Use `DeviceEventEmitter` to trigger fetching profile data when the `user_profile_updated` event is emitted

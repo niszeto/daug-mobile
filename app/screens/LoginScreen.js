@@ -66,7 +66,9 @@ export default class App extends React.Component {
           'Logged in!',
           'You have successfully Logged in!',
           [
-            { text: "Continue", onPress: () => onSignIn(responseJSON.user.id).then( () => navigate("Home"))}
+            { 
+              text: "Continue", onPress: () => onSignIn(responseJSON.user.id).then( () => navigate("Home"))
+            }
           ],
           { cancelable: false }
         )

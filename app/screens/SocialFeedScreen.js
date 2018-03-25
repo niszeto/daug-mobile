@@ -118,7 +118,7 @@ export default class App extends React.Component {
           <View style={styles.headerContainer}>
             <View style={styles.avatarNameLocationContainer}>
             <TouchableOpacity
-              onPress={() => navigate('Profile',{isHeaderShowing: true, user: member.user})}
+              onPress={() => navigate('Profile', { isHeaderShowing: true, userID: member.user.id })}
             >
               <Image
                 source={{ uri: member.user.profile_image || '' }}
@@ -133,7 +133,7 @@ export default class App extends React.Component {
             
               <View style={styles.nameAndLocationContainer}>
                 <TouchableOpacity
-                  onPress={() => navigate('Profile', { isHeaderShowing: true, user: member.user})}
+                  onPress={() => navigate('Profile', { isHeaderShowing: true, userID: member.user.id })}
                 >
                   <Text style={styles.memberNameText}>{member.user.name}</Text>
                 </TouchableOpacity>
@@ -229,11 +229,6 @@ export default class App extends React.Component {
             <TouchableOpacity
               onPress={ () => navigate('CreatePost', { member: user })}
             >
-            
-            {/* <TouchableOpacity
-              onPress={() => navigate('Profile',{isHeaderShowing: true, user: member.user})}
-            > */}
-
               <SimpleLineIcons
                 style={styles.icon}
                 name={"plus"}

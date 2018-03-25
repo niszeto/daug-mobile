@@ -10,7 +10,6 @@ export default class App extends React.Component {
     super(props);
 
     const { member } = props.navigation.state.params;
-    console.log(member);
 
     this.state = {
       isLoading: false,
