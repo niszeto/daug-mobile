@@ -172,7 +172,7 @@ export default class App extends React.Component {
               />
             </TouchableOpacity>
 
-            <Text style={styles.iconNumbers}>{member.comments || 0}</Text>
+            <Text style={styles.iconNumbers}>{ !!member.comments && member.comments.length || 0}</Text>
 
             <TouchableOpacity
               onPress={() => this.setState({isLiked: !isLiked})}
@@ -185,7 +185,7 @@ export default class App extends React.Component {
               />
             </TouchableOpacity>
 
-            <Text style={styles.iconNumbers}>{member.likes || 0}</Text>
+            <Text style={styles.iconNumbers}>{!! member.likes &&member.likes.length || 0}</Text>
 
           </View>
         </View>
@@ -194,11 +194,31 @@ export default class App extends React.Component {
     );
   }
 
-  loadingView(){
+  loadingView() {
     return (
       <View style={styles.loadingView}>
         <ActivityIndicator size="large" />
       </View>
+    )
+  }
+
+  contentView() {
+    const { posts, isLoading } = this.state;
+
+    return (
+      <ScrollView>
+
+        <FlatList
+          data={ posts }
+          style={ styles.mainContainer }
+          extraData={ this.state }
+          keyExtractor={ (item, index) => index }
+          renderItem={ ({ item }) => this.renderMemberPost(item) }
+          onRefresh={ () => this.fetchPosts() }
+          refreshing={ isLoading }
+        />
+
+      </ScrollView>
     )
   }
 
@@ -240,20 +260,8 @@ export default class App extends React.Component {
           </View>
         
         </View>
-
-        <ScrollView>
-
-          <FlatList
-            data={ posts }
-            style={ styles.mainContainer }
-            extraData={ this.state }
-            keyExtractor={ (item, index) => index }
-            renderItem={ ({ item }) => this.renderMemberPost(item) }
-            onRefresh={ () => this.fetchPosts() }
-            refreshing={ isLoading }
-          />
-
-        </ScrollView>
+        
+        {isLoading ? this.loadingView() : this.contentView()}
 
       </View>
     );

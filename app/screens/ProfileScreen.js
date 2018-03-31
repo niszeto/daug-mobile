@@ -83,12 +83,20 @@ export default class App extends React.Component {
     }
   }
 
-  render() {
+  loadingView() {
+    return (
+      <View style={styles.loadingView}>
+        <ActivityIndicator size="large" />
+      </View>
+    )
+  }
+
+  contentView() {
+    const { user, isHeaderShowing } = this.state;
     const { navigate } = this.props.navigation;
-    const { user, isHeaderShowing, isLoading } = this.state;
-    console.log(`user is : ${user}`);
 
     return (
+
       <ScrollView>
         <View style={styles.mainContainer}>
 
@@ -130,11 +138,11 @@ export default class App extends React.Component {
                     </View>
 
                     <View style={styles.textSubContainer}>
-                      <Text style={styles.textStyle}>{user.followers}</Text>
+                      <Text style={styles.textStyle}>{user.followers.length || 0}</Text>
                       <Text>Followers</Text>
                     </View>
                     <View style={styles.textSubContainer}>
-                      <Text style={styles.textStyle}>{user.following}</Text>
+                      <Text style={styles.textStyle}>{user.following.length || 0}</Text>
                       <Text>Following</Text>
                     </View>
 
@@ -183,6 +191,16 @@ export default class App extends React.Component {
 
         </View>
       </ScrollView>
+
+    ); 
+  }
+
+  render() {
+    const { navigate } = this.props.navigation;
+    const { user, isHeaderShowing, isLoading } = this.state;
+
+    return (
+      isLoading || user === null ? this.loadingView() : this.contentView()
     );
   }
 }
