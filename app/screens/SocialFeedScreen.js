@@ -225,8 +225,7 @@ export default class App extends React.Component {
   render() {
     const { navigate } = this.props.navigation;
     const { isLoading, posts, user } = this.state;
-    console.log(`member object is: ${user}`); 
-
+    
     return (
       <View style={styles.mainContainer}>
 

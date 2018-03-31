@@ -125,7 +125,7 @@ export default class App extends React.Component {
                 />
               </TouchableOpacity>
 
-              <Text style={styles.iconNumbers}>{member.likes || 0}</Text>
+              <Text style={styles.iconNumbers}>{!! member.likes &&member.likes.length || 0}</Text>
 
             </View>
           </View>
