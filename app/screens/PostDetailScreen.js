@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { SOCIAL_FEED_MOCK_DATA } from '../constants';
 import { Ionicons } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
+import { timeSince } from '../utilities/helpers';
 
 export default class App extends React.Component {
 
@@ -16,7 +17,7 @@ export default class App extends React.Component {
   constructor(props){
     super(props);
 
-    const {post} = props.navigation.state.params;
+    const { post } = props.navigation.state.params;
 
     this.state = {
       member: post,
@@ -30,7 +31,7 @@ export default class App extends React.Component {
       <View style={styles.individualCommentContainer} key={index}>
         <TouchableOpacity>
           <Image
-            source={{ uri: comment.user.image }}
+            source={{ uri: comment.user.profile_image || '' }}
             style={{
               borderRadius: 25,
               width: 50,
@@ -80,7 +81,7 @@ export default class App extends React.Component {
               onPress={() => navigate('Profile', { isHeaderShow: true, user: member.user })}
               >
                 <Image
-                  source={{ uri: member.user.image }}
+                  source={{ uri: member.user.profile_image || '' }}
                   style={{
                     borderRadius: 25,
                     width: 50,
@@ -96,12 +97,16 @@ export default class App extends React.Component {
                 >
                   <Text style={styles.memberNameText} >{member.user.name}</Text>
                 </TouchableOpacity>
-                <Text>{member.location}</Text>
+                {member.location && 
+
+                  <Text>{member.location}</Text>
+
+                }
               </View>
             </View>
 
           <Image
-            source={{ uri: member.user.image }}
+            source={{ uri: member.user.image || '' }}
             style={{
               width: '100%',
               height: 300,
