@@ -174,7 +174,7 @@ export default class App extends React.Component {
             <Text style={styles.iconNumbers}>{ !!member.comments && member.comments.length || 0}</Text>
 
             <TouchableOpacity
-              onPress={() => this.setState({isLiked: !isLiked})}
+              onPress={() => navigate('PostDetail', { postID: member.id })}
             >
               <Ionicons
                 style={styles.icon}

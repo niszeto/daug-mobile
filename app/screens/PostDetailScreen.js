@@ -213,7 +213,7 @@ export default class App extends React.Component {
           >
             <Text>{comment.user.name}</Text>
           </TouchableOpacity>
-          <Text>{comment.content}</Text>
+          <Text>{comment.description}</Text>
         </View>
       </View>
     )
@@ -258,6 +258,44 @@ export default class App extends React.Component {
         </View>
       </View>
     )
+  }
+
+  async postLike() {
+    const { postID, user } = this.state
+
+    try {
+      let response = await fetch(`https://daug-app.herokuapp.com/api/posts/${postID}/like/${user.id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        },
+        body: null
+      });
+
+      let responseJSON = null
+
+      if (response.status === 201) {
+        responseJSON = await response.json();
+
+        console.log(responseJSON)
+
+        this.fetchPost()
+        this.setState({ isLiked: true })
+      } else {
+        responseJSON = await response.json();
+        const error = responseJSON.message
+
+        console.log(responseJSON)
+
+        this.setState({ isLoading: false, errors: responseJSON.errors, liked: false })
+
+        Alert.alert('Unable to like post', `${error}`)
+      }
+    } catch (error) {
+      this.setState({ isLoading: false, error, isLiked: false })
+
+      Alert.alert('Unable to like post', `${error}`)
+    }
   }
 
   loadingView() {
@@ -323,7 +361,7 @@ export default class App extends React.Component {
             <View style={styles.buttonContainer}>
 
               <TouchableOpacity
-                onPress={() => this.setState({isLiked: !isLiked})}
+                onPress={() => this.postLike()}
               >
                 <Ionicons
                   style={styles.icon}
