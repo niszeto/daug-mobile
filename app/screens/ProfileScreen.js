@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, DeviceEventEmitter, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, DeviceEventEmitter, ActivityIndicator, TouchableOpacity, Alert } from 'react-native';
 import { Button } from 'react-native-elements';
 import { SOCIAL_FEED_MOCK_DATA } from '../constants';
 import { getUserID, onSignOut } from '../utilities/helpers';
@@ -45,6 +45,14 @@ export default class App extends React.Component {
         });
     } else {
       this.fetchUser();
+
+      getUserID()
+        .then(response => {
+          this.setState({ post_detail_home_user_id: response })
+        })
+        .catch(error => {
+          alert("An error occurred")
+});
     }
   }
 
@@ -84,6 +92,57 @@ export default class App extends React.Component {
 
     } catch(error) {
       console.log("failed" + error);
+    }
+  }
+
+  async followUser() {
+    const { post_detail_home_user_id, userID } = this.state
+
+    try {
+      let response = await fetch(`https://daug-app.herokuapp.com/api/users/${post_detail_home_user_id}/follow/${userID}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        },
+        body: null
+      });
+
+      let responseJSON = null;
+
+      if (response.status === 201) {
+        responseJSON = response.json();
+
+        console.log(responseJSON);
+
+        this.fetchUser();
+        this.setState({ following: true });
+
+        Alert.alert(
+          'Following user!',
+          '',
+          [
+            {
+              text: "Dismiss", onPress: () => {
+                console.log("User followed!");
+              }
+            }
+          ],
+          { cancelable: false }
+        )
+      } else {
+        responseJSON = await response.json();
+        const error = responseJSON.message;
+
+        console.log(responseJSON);
+
+        this.setState({ isLoading: false, errors: responseJSON.errors, following: false });
+
+        Alert.alert('Unable to follow user', `${error}`)
+      }
+    } catch (error) {
+      this.setState({ isLoading: false, error, following: false })
+
+      Alert.alert('Unable to follow user', `${error}`)
     }
   }
 
@@ -182,11 +241,11 @@ export default class App extends React.Component {
                     </View>
 
                     <View style={styles.textSubContainer}>
-                      <Text style={styles.textStyle}>{user.followers || 0}</Text>
+                      <Text style={styles.textStyle}>{user.followers && user.followers.length || 0}</Text>
                       <Text>Followers</Text>
                     </View>
                     <View style={styles.textSubContainer}>
-                      <Text style={styles.textStyle}>{user.following || 0}</Text>
+                      <Text style={styles.textStyle}>{user.following && user.followers.length || 0}</Text>
                       <Text>Following</Text>
                     </View>
 
@@ -201,8 +260,8 @@ export default class App extends React.Component {
                         /> :
                         
                         <Button
-                          text='Follow'
-                          onPress={() => console.log('Followed')}
+                          text={this.state.following ? 'Following' : 'Follow'}
+                          onPress={() => this.followUser()}
                         />
                     }
                   </View>
