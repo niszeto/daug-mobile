@@ -19,19 +19,23 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
 
-    const user = props.navigation.state.params && props.navigation.state.params.user;
+    const userID = props.navigation.state.params && props.navigation.state.params.userID;
     const isHeaderShowing = props.navigation.state.params && props.navigation.state.params.isHeaderShowing;
 
     this.state = {
       isLoading: false,
-      user: user || null,
+      userID: userID || null,
+      user: null,
       isHeaderShowing: isHeaderShowing || false
     }
 
   }
 
   async componentDidMount() {
-    getUserID()
+    const { userID } = this.state;
+
+    if(userID === null){
+      getUserID()
       .then( (response) => {
         this.setState({ userID: response});
         this.state.user === null && this.fetchUser();
@@ -39,6 +43,9 @@ export default class App extends React.Component {
         .catch( (error) => {
           alert("An error occured!");
         });
+    } else {
+      this.fetchUser();
+    }
   }
 
   componentWillMount() {

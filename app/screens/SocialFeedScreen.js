@@ -9,10 +9,9 @@ export default class App extends React.Component {
 
   static navigationOptions = ({ navigation }) => ({
     title: 'Daug',
-    headerTintColor: '#fd746c',
-    headerTitleStyle: {
-      fontSize: 20
-    },
+    headerStyle: { backgroundColor: '#2F80ED', borderBottomWidth: 0, },
+    headerTintColor: 'white',
+    headerTitleStyle: { color: 'white', fontSize: 20 }
   });
 
   constructor(props){
@@ -118,7 +117,7 @@ export default class App extends React.Component {
           <View style={styles.headerContainer}>
             <View style={styles.avatarNameLocationContainer}>
             <TouchableOpacity
-              onPress={() => navigate('Profile', { isHeaderShowing: true, user: member.user })}
+              onPress={() => navigate('Profile', { isHeaderShowing: true, userID: member.user.id })}
             >
               <Image
                 source={{ uri: member.user.profile_image || '' }}
@@ -133,7 +132,7 @@ export default class App extends React.Component {
             
               <View style={styles.nameAndLocationContainer}>
                 <TouchableOpacity
-                  onPress={() => navigate('Profile', { isHeaderShowing: true, user: member.user })}
+                  onPress={() => navigate('Profile', { isHeaderShowing: true, userID: member.user.id })}
                 >
                   <Text style={styles.memberNameText}>{member.user.name}</Text>
                 </TouchableOpacity>
@@ -144,7 +143,7 @@ export default class App extends React.Component {
           </View>
 
         <TouchableOpacity 
-          onPress={() => navigate('PostDetail', { post: member })}
+          onPress={() => navigate('PostDetail', { postID: member.id })}
         >
           <Image
               source={{ uri: member.image || '' }}
@@ -162,7 +161,7 @@ export default class App extends React.Component {
           <Text style={styles.date}>{timeSince(member.createdAt)}</Text>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
-              onPress={() => this.setState({isCommented: !isCommented})}
+              onPress={() => navigate('PostDetail', { postID: member.id })}
             >
               <Ionicons
                 style={styles.icon}
