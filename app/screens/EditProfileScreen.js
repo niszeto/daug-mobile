@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, FlatList, Image, TouchableOpacity, DeviceEventEmitter } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, FlatList, Image, Alert, TouchableOpacity, DeviceEventEmitter } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 import { Button, Input, Header } from 'react-native-elements';
@@ -20,7 +20,7 @@ export default class App extends React.Component {
   }
 
   submitProfile = async ()  => {
-    this.state({ isLoading: true });
+    this.setState({ isLoading: true });
 
     const {name, bio, profile_image} = this.state;
 
@@ -42,7 +42,7 @@ export default class App extends React.Component {
     formBody = formBody.join("&");
 
     try {
-      let response = await fetch(`${ENV_URL}/api/users/${this.state.id}`, {
+      let response = await fetch(`https://daug-app.herokuapp.com/api/users/${this.state.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
