@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, FlatList, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, FlatList, Image, TouchableOpacity, DeviceEventEmitter } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 import { Button, Input, Header } from 'react-native-elements';
@@ -11,15 +11,89 @@ export default class App extends React.Component {
   constructor(props){
     super(props);
 
+    const { user } = props.navigation.state.params;
+
     this.state = {
-      name: 'Charlie',
-      bio: "The world's most friendly cow!",
-      email: 'clucky@gmail.com',
+      isLoading: false,
+      ...user
     };
   }
 
+  submitProfile = async ()  => {
+    this.state({ isLoading: true });
+
+    const {name, bio, profile_image} = this.state;
+
+    var details = {
+      'name': name,
+      'bio': bio,
+      'profile_image': profile_image
+    };
+
+    var formBody = [];
+
+    for(var property in details) {
+      var encodedKey = encodeURIComponent(property);
+      var encodedValue = encodeURIComponent(details[property]);
+
+      formBody.push(encodedKey + "=" + encodedValue);
+    }
+
+    formBody = formBody.join("&");
+
+    try {
+      let response = await fetch(`${ENV_URL}/api/users/${this.state.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        },
+        body: formBody
+      });
+
+      let responseJSON = null
+
+      if (response.status === 200) {
+        responseJSON = await response.json();
+
+        console.log(responseJSON)
+
+        this.setState({ isLoading: false })
+
+        Alert.alert(
+          'Profile updated!',
+          '',
+          [
+            { text: "Dismiss", onPress: () => {
+              DeviceEventEmitter.emit('user_profile_updated', {})
+              this.props.navigation.goBack()
+            }}
+          ],
+          { cancelable: false }
+        )
+
+      } else {
+
+        responseJSON = await response.json();
+        const error = responseJSON.message
+
+        console.log(responseJSON)
+
+        this.setState({ isLoading: false, errors: responseJSON.errors })
+
+        Alert.alert('Unable to update profile!', `${error}`)
+
+      }
+    } catch (error) {
+
+      this.setState({ isLoading: false, response: error })
+
+      Alert.alert('Unable to update profile!', `${error}`)
+    }
+
+  }
+
   render() {
-    const {name,bio,email} = this.state;
+    const { name, bio, email, profile_image } = this.state;
 
     return (
       <View style={styles.modalContainer}>
@@ -40,7 +114,7 @@ export default class App extends React.Component {
           }
 
           rightComponent={
-            <TouchableOpacity onPress={() => this.props.navigation.goBack()} style={styles.mainContentContainer}>
+            <TouchableOpacity onPress={this.submitProfile} style={styles.mainContentContainer}>
               <View style={styles.headerLeftAndRightComponentContainer}>
                 <Text style={styles.headerLeftAndRightComponentTextStyle}>Done</Text>
               </View>
@@ -53,7 +127,7 @@ export default class App extends React.Component {
         <View style={styles.mainContentContainer}>
           <View style={styles.avatarContainer}>
             <Image
-                  source={{ uri: 'https://static.pexels.com/photos/36347/cow-pasture-animal-almabtrieb.jpg' }}
+                  source={{ uri: profile_image || '' }}
                   style={{
                     borderRadius: 75,
                     width: 150,

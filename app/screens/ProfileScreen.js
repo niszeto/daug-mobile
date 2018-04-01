@@ -22,8 +22,6 @@ export default class App extends React.Component {
     const user = props.navigation.state.params && props.navigation.state.params.user;
     const isHeaderShowing = props.navigation.state.params && props.navigation.state.params.isHeaderShowing;
 
-    console.log(`user constructor is ${user}`);
-
     this.state = {
       isLoading: false,
       user: user || null,
@@ -35,7 +33,6 @@ export default class App extends React.Component {
   async componentDidMount() {
     getUserID()
       .then( (response) => {
-        console.log(`response is : ${response}`);
         this.setState({ userID: response});
         this.state.user === null && this.fetchUser();
       })
@@ -55,7 +52,7 @@ export default class App extends React.Component {
     this.setState({ isLoading: true });
 
     try{
-      let response = await fetch(`https://daug-app.herokuapp.com/api/users/7`, {
+      let response = await fetch(`https://daug-app.herokuapp.com/api/users/${this.state.userID}`, {
         method: 'GET'
       });
 
@@ -153,7 +150,7 @@ export default class App extends React.Component {
                       !isHeaderShowing ?
                         <Button
                           text='Edit Profile'
-                          onPress={() => navigate('Edit')}
+                          onPress={() => navigate('Edit', { user: user})}
                         /> :
                         
                         <Button
@@ -183,7 +180,7 @@ export default class App extends React.Component {
             <Button
               style={styles.logoutButtonContainer}
               text='Logout'
-              onPress={() => this.props.navigation.navigate('Intro')}
+              onPress={() => onSignOut().then( () => navigate("Intro"))}
               textStyle={styles.buttonTextStyle}
             />
           }
