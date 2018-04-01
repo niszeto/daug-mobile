@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, DeviceEventEmitter, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, DeviceEventEmitter, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-elements';
 import { SOCIAL_FEED_MOCK_DATA } from '../constants';
 import { getUserID, onSignOut } from '../utilities/helpers';
@@ -78,6 +78,46 @@ export default class App extends React.Component {
     } catch(error) {
       console.log("failed" + error);
     }
+  }
+
+  displayPost = (post, index) => {
+    return (
+      <View style={styles.commentContainer} key={index}>
+        <TouchableOpacity 
+          onPress={() => navigate('Profile', { admin: 'false' })}
+        >
+          <Image
+            source={{uri: post.image }}
+            style={
+              styles.commentAvatar
+            }
+          />
+        </TouchableOpacity>
+
+        <View style={styles.postUsernameLocationContainer}>
+          <TouchableOpacity 
+            style={styles.postUsernameView}
+            onPress={() => navigate('Profile', { admin: 'false' })}
+          >
+            <Text style={styles.commentUsernameLabel}>{post.caption}</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    )
+  }
+
+  renderPosts = () => {
+    const { posts } = this.state.user;
+
+    return (
+      <View style={styles.postsContainer}>
+        {
+          posts.map((post, index) => {
+            return this.displayPost(post, index);
+          })
+        }
+      </View>
+    )
   }
 
   loadingView() {
