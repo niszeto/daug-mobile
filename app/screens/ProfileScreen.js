@@ -135,11 +135,11 @@ export default class App extends React.Component {
                     </View>
 
                     <View style={styles.textSubContainer}>
-                      <Text style={styles.textStyle}>{user.followers.length || 0}</Text>
+                      <Text style={styles.textStyle}>{user.followers || 0}</Text>
                       <Text>Followers</Text>
                     </View>
                     <View style={styles.textSubContainer}>
-                      <Text style={styles.textStyle}>{user.following.length || 0}</Text>
+                      <Text style={styles.textStyle}>{user.following || 0}</Text>
                       <Text>Following</Text>
                     </View>
 
