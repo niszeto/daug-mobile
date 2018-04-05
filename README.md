@@ -1,6 +1,18 @@
-# Daug mobile app
+<p align="center">
+  <a href="https://github.com/niszeto/daug-mobile">
+    <img alt="daug" src="https://github.com/niszeto/daug-mobile/blob/master/assets/corgiLogo.png" width="250">
+  </a>
+</p>
 
-This repo is the mobile app for Daug. It was built as part of the [MobileSpace](http://mobilespace.xyz/) [Season 2](https://github.com/mobilespace/Season2#season-2---looking-ahead) course by [Monte Thakkar](https://github.com/monte9/).
+<h3 align="center">
+  Daug mobile app
+</h3>
+
+<p align="center">
+  Daug is a social network for pets.
+</p>
+
+### [Demo - Try it on Expo](https://expo.io/@niszeto/daug-mobile)
 
 ## What's Daug?
 
@@ -8,14 +20,44 @@ This repo is the mobile app for Daug. It was built as part of the [MobileSpace](
 
 - Your pets can **sign up or login** using their paws.
 - They can **upload selfies** or **post their thoughts** for other pets to see.
-- They can also look at **other pets posts** and either **paw** (like) or **scratch** (dislike) it.
+- They can also look at **other pets posts** and either **paw** (like) or just dislike it.
 
-### [Demo - Try it on Expo](https://expo.io/@niszeto/daug-mobile)
+### Demo and some screenshots
+
+![daug_demo]()
+
+<div style={{display: flex; flex-direction: row}}>
+  <img src="screenshots/HomePage.png" width="270" />
+  <img src="screenshots/LoginPage.png" width="270" />
+  <img src="screenshots/SignUpPage.png" width="270" />
+</div>
+<div style={{display: flex; flex-direction: row}}>
+  <img src="screenshots/SocialFeedPage.png" width="270" />
+  <img src="screenshots/CreatePostPage.png" width="270" />
+  <img src="screenshots/PostDetailsPage.png" width="270" />
+</div>
+<div style={{display: flex; flex-direction: row}}>
+  <img src="screenshots/FollowUser.png" width="270" />
+  <img src="screenshots/ProfileScreenPage.png" width="270" />
+  <img src="screenshots/EditProfilePage.png" width="270" />
+</div>
+
+## Functionality
+- Daug is a fully functioning Social Network app
+- Users can Sign up & Log into the app
+- Users can create a new Posts
+- Users can like and comments on Posts
+- Users can follow each other
+
+
+Used React Native Camera library to let the users take pictures while creating posts or upload a new profile picture. Also used React Native Elements library to build UI, React Navigation library to handle navigation, and packages such as react-native-modal and react-native-keyboard-aware-scroll-view to improve UI. 
+
+Would like to implement Redux in the future to better manage the state and to clean up some styling.
 
 ## Getting started
 
 ```
-git clone git@github.com:niszeto/daug-mobile.git
+git clone https://github.com/niszeto/daug-mobile.git
 
 exp start
 
@@ -28,10 +70,13 @@ Intro, Login & Sign Up screens are based on **Robinhood App**.
 
 Profile screen is based on **Instagram**.
 
-Social Feed screen is based on **Facebook**.
+Social Feed screen is based on **Facebook** and **Instagram**.
 
+## Milestones
 
-## Assignment #1
+Below you can see my main milestones and how I achieved them
+
+## Milestone #1
 
 ### Objectives
 
@@ -53,11 +98,8 @@ Social Feed screen is based on **Facebook**.
 - [x] Design & build a Social Feed Screen with [Mock Data](https://raw.githubusercontent.com/mobilespace/daug-mobile/c4d4a331564ee490e1162f3733f3023afe3defc3/app/utils/constants.js)
 - [x] Attach screenshots/gif of screens to `README.MD`
 
-Demo
 
-![](AssignmentOne.gif)
-
-## Assignment #2
+## Milestone #2
 
 ### Objectives
 
@@ -79,38 +121,18 @@ Demo
 - [x] Design & build a Post Details Screen
 - [x] Design & build a Create Post Screen
 - [x] Setup a **SocialStack** (using StackNavigator) for the Social Feed Screen (root), Post Details Screen (push) & Create Post Screen (modal) with mode: "modal" and custom RNE header component
-- [ ] :star: **Bonus:** Display Posts on ProfileScreen
+- [x] :star: **Bonus:** Display Posts on ProfileScreen
 - [ ] :star: **Bonus:** Setup a **HomeNavigator**(using DrawerNavigator) with the **HomeTabs** (as root) and update **RootNavigator** to use **HomeNavigator** instead of **HomeTabs**
 - [x] Add working gif of app to `README.MD`
 
-### Demo
-![](AssignmentTwo.gif)
 
-## Assignment #3
+## Milestone #3
 
 ### Objectives
 
 - Learn how to make backend API calls and User Authentication
 - Learn how to setup and use Redux and AsyncStorage
 - Serve as an React Native app that you can showcase on your porfolio
-
-#### URL: [https://daug-app.herokuapp.com](https://daug-app.herokuapp.com)
-
-### API
-
-- `/api` => `GET` => Used to check API endpoint status
-  	- `/users/all` => `GET` => Lists of all users
-  	- `/posts/all` => `GET` => Lists of all posts
-  	- `/users/:userId` => `GET` => Returns a user
-  	- `/users/:userId` => `PUT` => Updates a user
-  	- `/posts/:postId` => `GET` => Returns a post
-  	- `/posts/:postId` => `POST` => Creates a post
-  	- `/posts/:postId` => `PUT` => Updates a post
-  	- `/posts/:postId` => `DELETE` => Deletes a post
-  	- `/feed` => `GET` => Returns the Social Feed
-- `/auth` => `GET` => Used to check AUTH endpoint status
-  - `/signup` => `POST` = `( name, email, password )` => Used to create a new user
-  - `/login` => `POST` = `( email, password )` => Used to validate an existing user
 
 ### TODO
 
@@ -132,7 +154,27 @@ Demo
 	- [x] :star: **Bonus:** Use `DeviceEventEmitter` to emit `user_profile_updated` event once user data is updated
 - [x] Setup Authentication flow for app using `AsyncStorage`. Once the user has logged in then take them to home page each time they open the app again
 - [] Use Redux to share state between tab bar & screens
-- [] Add working gif of app to `README.MD`
+- [x] Add working gif of app to `README.MD`
 
-### Demo
-![]()
+## Wrap up
+
+### Objectives
+
+- Add UI polish, tie up loose end and add remaining functionality
+- Update Readme with app details and publish Expo app for demo
+- Serve as an React Native app that you can showcase on your porfolio
+
+### TODO
+- [x] Dynamically load user info 
+- [x] Fix photo upload and add take photo functionality
+- [x] Add Like, Comment and Follow API functionality
+- [x] Clean up and format `README.MD` to showcase app - [follow this template](https://github.com/mobilespace/MobileGuides/blob/master/showcase_app_readme.md#readme-template-for-showcasing-a-mobile-app)
+- [ ] :star: **Bonus:** Add phone number UI to Edit Profile screen
+- [] :star: **Bonus:** Add Camera functionality to Create Post screen
+- [ ] :star: **Bonus:** Use Redux to share state between tab bar & screens
+- [x] Add working gif of app to `README.MD`
+
+
+## Feedback
+
+In case you have any feedback or questions, feel free to open a new issues on this repo or reach out to me [**@niszeto**](https://github.com/niszeto) on Github.

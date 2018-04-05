@@ -323,7 +323,7 @@ const styles = StyleSheet.create({
   },
 
   createPostImageContainer: {
-    flex: 1
+    flex: 2
   },
 
   postImage: {
