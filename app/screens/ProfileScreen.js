@@ -1,8 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, ScrollView, DeviceEventEmitter, ActivityIndicator, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, DeviceEventEmitter, ActivityIndicator, TouchableOpacity, Alert, Dimensions } from 'react-native';
 import { Button } from 'react-native-elements';
 import { SOCIAL_FEED_MOCK_DATA } from '../constants';
 import { getUserID, onSignOut } from '../utilities/helpers';
+
+const DEVICE_WIDTH = Dimensions.get('window').width;
 
 export default class App extends React.Component {
 
@@ -147,28 +149,16 @@ export default class App extends React.Component {
   }
 
   displayPost = (post, index) => {
-    return (
-      <View style={styles.commentContainer} key={index}>
-        <TouchableOpacity 
-          onPress={() => navigate('Profile', { admin: 'false' })}
-        >
-          <Image
-            source={{uri: post.image }}
-            style={
-              styles.commentAvatar
-            }
-          />
-        </TouchableOpacity>
+    const { navigate } = this.props.navigation;
 
-        <View style={styles.postUsernameLocationContainer}>
-          <TouchableOpacity 
-            style={styles.postUsernameView}
-            onPress={() => navigate('Profile', { admin: 'false' })}
-          >
-            <Text style={styles.commentUsernameLabel}>{post.caption}</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+    return (
+      <TouchableOpacity
+        style={[styles.postIconContainer, { width: DEVICE_WIDTH / 3, height: DEVICE_WIDTH / 3 }]}
+        key={index}
+        onPress={()=> navigate('Post', {postID: post.id})}
+      >
+        {post.image && <Image source={{ uri: post.image || '' }} style={styles.postImage} resizeMode="cover" />}
+      </TouchableOpacity>
     )
   }
 
@@ -282,13 +272,17 @@ export default class App extends React.Component {
           <Text>{user.posts ? user.posts.length : 'NO' } POSTS</Text>
           <View style={styles.footerContainer}>
           {
-            !isHeaderShowing &&
-            <Button
+            !isHeaderShowing ?
+            <View style={styles.contentViewContainer}>
+              {this.renderPosts()}
+              <Button
               style={styles.logoutButtonContainer}
               text='Logout'
               onPress={() => onSignOut().then( () => navigate("Intro"))}
               textStyle={styles.buttonTextStyle}
             />
+            </View> : 
+            this.renderPosts()
           }
           </View>
 
@@ -381,6 +375,28 @@ const styles = StyleSheet.create({
 
   buttonTextStyle: {
     fontSize: 25,
+  },
+
+  postIconContainer: {
+    borderWidth: 1,
+    borderColor: '#aaaaaa',
+    backgroundColor: '#f9f9f9'
+  },
+
+  contentViewContainer: {
+
+  }, 
+
+  postsContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingTop: 10,
+    paddingBottom: 20
+  },
+
+  postImage: {
+    flex: 1,
   }
 
 });
