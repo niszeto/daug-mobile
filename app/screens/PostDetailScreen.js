@@ -1,9 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Alert, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, Alert, ActivityIndicator, KeyboardAvoidingView } from 'react-native';
 import { SOCIAL_FEED_MOCK_DATA } from '../constants';
 import { Ionicons } from '@expo/vector-icons';
 import { timeSince, getUserID } from '../utilities/helpers';
 import { Button, Icon, Input} from 'react-native-elements';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 export default class App extends React.Component {
 
@@ -310,10 +311,13 @@ export default class App extends React.Component {
     const { navigate } = this.props.navigation;
     const { member, isLiked } = this.state;
     
-    const Component = member && member.comments ? ScrollView : View
-    console.log(`${member.user.image} member is`);
+    const Component = member && member.comments ? KeyboardAwareScrollView : KeyboardAvoidingView;
+
     return (
-      <Component style={styles.mainContainer}>
+      <Component style={styles.mainContainer}
+        resetScrollToCoords={{ x: 0, y: 0 }}
+        scrollEnabled={true}
+      >
         <View style={styles.profileInformationContainer} key={member}>
 
           
