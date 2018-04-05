@@ -24,7 +24,7 @@
 
 ### Demo and some screenshots
 
-![daug_demo]()
+![daug_demo](AssignmentThree.gif)
 
 <div style={{display: flex; flex-direction: row}}>
   <img src="screenshots/HomePage.png" width="270" />
@@ -138,22 +138,22 @@ Below you can see my main milestones and how I achieved them
 
 - [x] Intro Screen - Make simple **`GET`** request to **`/api`** to check server status
 - [x] Signup Screen - Make **`POST`** request to **`/auth/signup`** to create a new user
-	- [] :star: **Bonus:** Add UI validation to Signup Screen - name (not null), email (format) & password (min. 8 characters)
+	- [ ] :star: **Bonus:** Add UI validation to Signup Screen - name (not null), email (format) & password (min. 8 characters)
 - [x] Login Screen - Make **`POST`** request to **`/auth/login`** to validate and login an existing user
-	- [] :star: **Bonus:** Add UI validation to Login Screen - email (format) & password (min. 8 characters)
+	- [ ] :star: **Bonus:** Add UI validation to Login Screen - email (format) & password (min. 8 characters)
 - [x] Social Feed Screen - Make **`GET`** request to **`/api/feed/`** to get all posts for social feed
 	- [x] :star: **Bonus:** Use `ActivityIndicator` to show placeholder loading when fetching feed data
 	- [x] :star: **Bonus:** Use `DeviceEventEmitter` to trigger fetching posts when the `new_post_created` event is emitted
 	- [x] :star: **Bonus:** Use `timeSince()` utility function to show relative times for post creation
 - [x] Create Post Screen - Make **`POST`** request to **`/api/users/:userId/posts`** to create a new post by the user
 	- [x] :star: **Bonus:** Use `DeviceEventEmitter` to emit `new_post_created` event once post is created
-- [] Profile Screen - Make **`GET`** request to **`/api/users/:userId`** to get all the profile data
+- [x] Profile Screen - Make **`GET`** request to **`/api/users/:userId`** to get all the profile data
 	- [x] :star: **Bonus:** Use `ActivityIndicator` to show placeholder loading when fetching profile data
 	- [x] :star: **Bonus:** Use `DeviceEventEmitter` to trigger fetching profile data when the `user_profile_updated` event is emitted
 - [x] Edit Profile Screen - Make **`PUT`** request to **`/api/users/:userId`** to update a user's profile information
 	- [x] :star: **Bonus:** Use `DeviceEventEmitter` to emit `user_profile_updated` event once user data is updated
 - [x] Setup Authentication flow for app using `AsyncStorage`. Once the user has logged in then take them to home page each time they open the app again
-- [] Use Redux to share state between tab bar & screens
+- [ ] Use Redux to share state between tab bar & screens
 - [x] Add working gif of app to `README.MD`
 
 ## Wrap up
@@ -170,7 +170,7 @@ Below you can see my main milestones and how I achieved them
 - [x] Add Like, Comment and Follow API functionality
 - [x] Clean up and format `README.MD` to showcase app - [follow this template](https://github.com/mobilespace/MobileGuides/blob/master/showcase_app_readme.md#readme-template-for-showcasing-a-mobile-app)
 - [ ] :star: **Bonus:** Add phone number UI to Edit Profile screen
-- [] :star: **Bonus:** Add Camera functionality to Create Post screen
+- [ ] :star: **Bonus:** Add Camera functionality to Create Post screen
 - [ ] :star: **Bonus:** Use Redux to share state between tab bar & screens
 - [x] Add working gif of app to `README.MD`
 
