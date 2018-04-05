@@ -1,8 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, Alert, TextInput, DeviceEventEmitter } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Alert, TextInput, DeviceEventEmitter, ImageEditor } from 'react-native';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { Button, Input, Header, Icon } from 'react-native-elements';
 import { getUserID } from '../utilities/helpers';
+import { RNS3 } from 'react-native-aws3';
+import { ImagePicker } from 'expo';
 
 export default class App extends React.Component {
 
@@ -101,6 +103,58 @@ export default class App extends React.Component {
     }
   }
 
+  pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+    });
+
+    if (result.cancelled) {
+      console.log('Profile Image cancelled');
+      return;
+    }
+
+    let resizedUri = await new Promise((resolve, reject) => {
+      ImageEditor.cropImage(result.uri,
+        {
+          offset: { x: 0, y: 0 },
+          size: { width: result.width, height: result.height },
+          displaySize: { width: result.width, height: result.height },
+          resizeMode: 'contain',
+        },
+        (uri) => resolve(uri),
+        () => reject(),
+      );
+    });
+
+    // this gives you a rct-image-store URI or a base64 image tag that
+    // you can use from ImageStore
+
+    const file = {
+      // `uri` can also be a file system path (i.e. file://)
+      uri: resizedUri,
+      name: `user_${this.state.member.id}_post_${new Date().getTime()}.png`,
+      type: "image/png"
+    }
+
+    const options = {
+      keyPrefix: "uploads/",
+      bucket: "daug",
+      region: "us-east-1",
+      accessKey: "AKIAIKG2UJ7AHBKJ5N2Q",
+      secretKey: "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",
+      successActionStatus: 201
+    }
+
+    RNS3.put(file, options).then(response => {
+      if (response.status !== 201)
+        throw new Error("Failed to upload image to S3");
+
+      console.log(response.body);
+
+      this.setState({ image: response.body.postResponse.location });
+    });
+  };
 
   render() {
     const { navigate } = this.props.navigation;
@@ -173,6 +227,22 @@ export default class App extends React.Component {
             >
             </TextInput>
 
+          </View>
+
+          <View style={styles.createPostImageContainer}>
+              {this.state.image ?
+                <Image source={{ uri: image }} style={styles.postImage} resizeMode="cover" /> :
+                <View style={styles.createAddPostImageContainer}>
+                  <Text style={styles.orLabel}>OR</Text>
+                  <TouchableOpacity style={styles.cameraIconView} onPress={this.pickImage}>
+                    <SimpleLineIcons
+                      name='camera'
+                      style={{ color: '#aaaaaa' }}
+                      size={42}
+                    />
+                  </TouchableOpacity>
+                </View>
+              }
           </View>
 
         </View>
@@ -250,6 +320,33 @@ const styles = StyleSheet.create({
     color: 'black',
     paddingLeft: 10,
     paddingRight: 10,
+  },
+
+  createPostImageContainer: {
+    flex: 1
+  },
+
+  postImage: {
+    width: '100%',
+    height: 250
+  },
+
+  createAddPostImageContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    height: 200
+  },
+
+  orLabel: {
+    flex: 1,
+    color: '#aaaaaa',
+    fontSize: 26,
+    marginTop: 40,
+    fontWeight: 'bold'
+  },
+
+  cameraIconView: {
+    flex: 1,
   }
 
 });
